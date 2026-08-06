@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# .NET build output
+bin/
+obj/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Environment / secrets
+.env
+*.env
+appsettings.Development.json
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
