@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ScoreSeer.Api.Models;
+using ScoreSeer.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddDbContext<ScoreSeerDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
