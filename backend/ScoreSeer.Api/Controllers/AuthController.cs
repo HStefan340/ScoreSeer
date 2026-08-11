@@ -5,6 +5,7 @@ using ScoreSeer.Api.Models;
 using ScoreSeer.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using Google.Apis.Auth;
 
 namespace ScoreSeer.Api.Controllers;
 [ApiController]
@@ -13,11 +14,13 @@ public class AuthController : ControllerBase
 {
     private readonly ScoreSeerDbContext _context;
     private readonly TokenService _tokenService;
+    private readonly IConfiguration _config;
 
-    public AuthController(ScoreSeerDbContext context, TokenService tokenService)
+    public AuthController(ScoreSeerDbContext context, TokenService tokenService, IConfiguration config)
     {
         _context = context;
         _tokenService = tokenService;
+        _config = config;
     }
 
     [HttpPost("register")]
@@ -70,6 +73,68 @@ public class AuthController : ControllerBase
         var token = _tokenService.CreateToken(user);
 
         return Ok(new { 
+            token,
+            user = new { user.Id, user.Email, user.Username }
+        });
+    }
+
+    [HttpPost("google")]
+    public async Task<IActionResult> GoogleLogin(GoogleLoginDto dto)
+    {
+       GoogleJsonWebSignature.Payload payload;
+
+       // Verify the Google token against our Client ID 
+       try
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new [] { _config["Google:ClientId"] }
+            };
+
+            payload = await GoogleJsonWebSignature.ValidateAsync(dto.IdToken, settings);
+        } 
+        catch
+        {
+            //If the token is invlaid or verification fails
+            return Unauthorized("Invalid Google token.");
+        }
+
+        // Try to find an existing user by their Google ID
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject);
+
+        // If not found by Google ID, try by their email (in case they registered with email before)
+        if(user == null)
+        {
+            user = await _context.Users.FirstOrDefaultAsync(u => u.Email == payload.Email);
+
+            if(user != null)
+            {
+                // Existing email account: link the Google ID to it
+                user.GoogleId = payload.Subject;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // If still no user, create a brand new account from the Google info
+        if(user == null)
+        {
+            user = new User
+            {
+                Email = payload.Email,
+                GoogleId = payload.Subject,
+                Username = "user_" + Guid.NewGuid().ToString("N").Substring(0,8),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+
+        // Issue our own JWT, exactly like a normal login
+        var token = _tokenService.CreateToken(user);
+
+        return Ok(new
+        {
             token,
             user = new { user.Id, user.Email, user.Username }
         });
