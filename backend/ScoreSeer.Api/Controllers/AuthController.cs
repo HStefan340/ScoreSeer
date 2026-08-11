@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using ScoreSeer.Api.Dtos;
 using ScoreSeer.Api.Models;
 using ScoreSeer.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ScoreSeer.Api.Controllers;
 [ApiController]
@@ -71,5 +73,31 @@ public class AuthController : ControllerBase
             token,
             user = new { user.Id, user.Email, user.Username }
         });
+    }
+
+    //Returns the current authenticated user's information; requires a valid token
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        
+        //Extract the user ID from the token's claims
+        var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                          ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        if(userIdClaim == null)
+        return Unauthorized();
+
+        // Convert the claim value to the user's ID type
+        var userId = long.Parse(userIdClaim);
+
+        //Fetch the user from database
+        var user = await _context.Users.FindAsync(userId);
+
+        if(user == null)
+        return NotFound();
+
+        return Ok(new { user.Id, user.Email, user.Username });
+
     }
 }
