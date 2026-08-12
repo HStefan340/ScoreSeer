@@ -74,4 +74,59 @@ public class PredictionsController : ControllerBase
 
         return Ok(new { message = "Prediction submitted!", prediction.Id});
     }
+
+    // Get all predictions of the current user
+    [HttpGet("mine")]
+    public async Task<IActionResult> GetMyPredictions()
+    {
+        var userId = GetUserId();
+
+        var predictions = await _context.Predictions
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Match)
+                    .ThenInclude(m => m.HomeTeam)
+                .Include(p => p.Match)
+                    .ThenInclude(m => m.AwayTeam)
+                .OrderByDescending(p => p.CreatedAt)
+                .Select(p => new
+                {
+                    p.Id,
+                    MatchId = p.Match.HomeTeam.Name,
+                    AwayTeam = p.Match.AwayTeam.Name,
+                    p.PredictedHomeScore,
+                    p.PredictedAwayScore,
+                    ActualHomeScore = p.Match.HomeScore,
+                    ActualAwayScore = p.Match.AwayScore,
+                    MatchStatus = p.Match.Status,
+                    p.PointsAwarded,
+                    p.Match.KickoffAt
+                })
+                .ToListAsync();
+
+        return Ok(predictions);
+    }
+
+    // Get the current user's prediction for a specific match (or 404 if none)
+    [HttpGet("match/{matchId}")]
+    public async Task<IActionResult> GetMyPredictionForMatch(int matchId)
+    {
+        var userId = GetUserId();
+
+        var prediction = await _context.Predictions
+                .Where(p => p.UserId == userId && p.MatchId == matchId)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.MatchId,
+                    p.PredictedHomeScore,
+                    p.PredictedAwayScore,
+                    p.PointsAwarded
+                })
+                .FirstOrDefaultAsync();
+
+        if(prediction == null)
+            return NotFound("No prediction for this match");
+
+        return Ok(prediction);
+    }
 } 
