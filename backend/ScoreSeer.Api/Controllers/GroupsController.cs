@@ -112,4 +112,127 @@ public class GroupsController : ControllerBase
 
         return Ok(members);
     }
+
+    // Send an invitation to another user to join a group
+    [HttpPost("invitations")]
+    public async Task<IActionResult> SendInvitation(CreateInvitation dto)
+    {
+        var userId = GetUserId();
+
+        // The sender must be a member of the group
+        var isMember = await _context.GroupMembers
+                .AnyAsync(gm => gm.GroupId == dto.GroupId && gm.UserId == userId);
+
+        if(!isMember)
+            return Forbid();
+
+        // Cannot invite yourself
+        if(dto.ReceiverId == userId)
+            return BadRequest("You cannot invite yourself!");
+
+        // The receiver must exist
+        var receiverExists = await _context.Users.AnyAsync(u => u.Id == dto.ReceiverId);
+        
+        if(!receiverExists)
+            return NotFound("User not found!");
+
+        // The receiver must not already be a member
+        var alreadyMember = await _context.GroupMembers
+                .AnyAsync(gm => gm.GroupId == dto.GroupId && gm.UserId == dto.ReceiverId);
+
+        if(alreadyMember)
+            return BadRequest("User is already a member of this group!");
+
+        // There must not be a pending invitation already
+        var pendingExists = await _context.Invitations
+                .AnyAsync(i => i.GroupId == dto.GroupId && i.ReceiverId == dto.ReceiverId && i.Status == "pending");
+
+        if(pendingExists)
+            return BadRequest("An invitation is already pending for this user!");
+
+        // Create the invitation
+        var invitation = new Invitation
+        {
+            GroupId = dto.GroupId,
+            SenderId = userId,
+            ReceiverId = dto.ReceiverId,
+            Status = "pending",
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Invitations.Add(invitation);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { invitation.Id, message = "Invitation sent." });
+    }
+
+    // Get all pending invitations received by the current user
+    [HttpGet("invitations/received")]
+    public async Task<IActionResult> GetReceivedInvitations()
+    {
+        var userId = GetUserId();
+
+        var invitations = await _context.Invitations
+                .Where(i => i.ReceiverId == userId && i.Status == "pending")
+                .Select(i => new
+                {
+                    i.Id,
+                    GroupId = i.GroupId,
+                    GroupName = i.Group.Name,
+                    SenderUsername = i.Sender.Username,
+                    i.CreatedAt
+                })
+                .ToListAsync();
+
+        return Ok(invitations);
+    }
+
+    // Respond to an invitation: accept or decline
+    [HttpPost("invitations/{id}/respond")]
+    public async Task<IActionResult> RespondToInvitation(long id, [FromQuery] bool accept)
+    {
+        var userId = GetUserId();
+
+        // The invitation must exist
+        var invitation = await _context.Invitations.FindAsync(id);
+
+        if(invitation == null)
+            return NotFound("You have no invitations!");
+
+        // Only the receiver can respond to it
+        if(invitation.ReceiverId != userId)
+            return Forbid();
+        
+        // It must still be pending
+        if(invitation.Status != "pending")
+            return BadRequest("This invitation has already been answered");
+
+        if(accept)
+        {
+            // Mark the invitation as accepted
+            invitation.Status = "accepted";
+
+            // Add the user as a member of the group
+            var member = new GroupMember
+            {
+                GroupId = invitation.GroupId,
+                UserId = userId,
+                Role = "member",
+                JoinedAt = DateTime.UtcNow
+            };
+
+            _context.GroupMembers.Add(member);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Invitation accepted. You joined the group!" });
+        }
+        else
+        {
+            // Just mark it as declined
+            invitation.Status = "declined";
+            await _context.SaveChangesAsync();
+            return Ok(new { message = " Invitation declined!" });
+        }
+    }
 }
