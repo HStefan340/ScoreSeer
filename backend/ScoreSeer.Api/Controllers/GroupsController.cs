@@ -235,4 +235,38 @@ public class GroupsController : ControllerBase
             return Ok(new { message = " Invitation declined!" });
         }
     }
+
+    // Get the leaderboard for a group (Members ranked by total points)
+    [HttpGet("{id}/leaderboard")]
+    public async Task<IActionResult> GetLeaderboard(int id)
+    {
+        var userId = GetUserId();
+
+        // The user must be a amember of the group to see its leaderboard
+        var isMember = await _context.GroupMembers
+                .AnyAsync(gm => gm.GroupId == id && gm.UserId == userId);
+
+        if(!isMember)
+            return Forbid();
+
+        //For each member sum the points from their predicitions
+        var leaderboard = await _context.GroupMembers
+                .Where(gm => gm.GroupId == id)
+                .Select(gm => new
+                {
+                    gm.UserId,
+                    gm.User.Username,
+                    // Sum of points across teh user's prediction (0 if none)
+                    TotalPoints = _context.Predictions
+                            .Where(p => p.UserId == gm.UserId && p.PointsAwarded != null)
+                            .Sum(p => p.PointsAwarded) ?? 0,
+                    // How many predicitions they've had scored
+                    PredictionsScored = _context.Predictions
+                            .Count(p => p.UserId == gm.UserId && p.PointsAwarded !=null)
+                })
+                .OrderByDescending(x => x.TotalPoints)
+                .ToListAsync();
+
+        return Ok(leaderboard);
+    }
 }
