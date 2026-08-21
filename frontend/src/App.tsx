@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import { useAuth } from "./api/AuthContext";
 import HomePage from "./pages/HomePage";
 import MatchesPage from "./pages/MatchesPage";
@@ -8,6 +8,25 @@ import './App.css';
 
 function App() 
 {
+  const { token } = useAuth();
+
+  // Not logged in: only show login / register
+  if(!token){
+  return(
+    <BrowserRouter>
+
+    {/* Route definitions */}
+    <Routes>
+      <Route path = "/login" element = {<LoginPage />} />
+      <Route path = "/register" element = {<RegisterPage />} />
+      {/* Any other path redirects to login */}
+      <Route path = "*" element = {<Navigate to = "/login" replace />} />
+    </Routes>
+
+    </BrowserRouter>
+  );
+  }
+
   return(
     <BrowserRouter>
 
@@ -16,8 +35,8 @@ function App()
     <Routes>
       <Route path = "/" element = {<HomePage />} />
       <Route path = "/matches" element = {<MatchesPage />} />
-      <Route path = "/login" element = {<LoginPage />} />
-      <Route path = "/register" element = {<RegisterPage />} />
+      {/* Any unknown path goes home */}
+      <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>
 
     </BrowserRouter>
@@ -32,17 +51,8 @@ function Navigation()
   return(
     <nav>
       <Link to = "/">Home</Link> | <Link to = "matches">Matches</Link>
-      {user ? (
-        <>
-        {' | '}<span>Hi, {user.username}</span>
-        {' | '}<button onClick = {logout}>LogOut</button>
-        </>
-      ) : (
-        <>
-        {' | '}<Link to = "/login">LogIn</Link>
-        {' | '}<Link to = "/register">Register</Link>
-        </>
-      )}
+      {' | '}<span>Hi, {user?.username}</span>
+      {' | '}<button onClick = {logout}>LogOut</button>
     </nav>
   );
 }

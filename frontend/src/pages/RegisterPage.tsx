@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../api/client";
 
 function RegisterPage()
@@ -42,6 +42,9 @@ function RegisterPage()
                 {error && <p style = {{ color: 'red' }}> {error} </p>}
                 <button type = "submit">SignUp</button>
             </form>
+            <p>
+                Already have an acoount? <Link to = "/login">LogIn</Link>
+            </p>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../api/client";
 import { useAuth } from "../api/AuthContext";
 import type { User } from "../types";
@@ -48,6 +48,9 @@ function LoginPage()
                 {error && <p style ={{ color: 'red' }}> {error} </p>}
                 <button type = "submit">LogIn</button>
             </form>
+            <p>
+                You don't have an account? <Link to = "/register">SignUp</Link>
+            </p>
         </div>
     );
 }
