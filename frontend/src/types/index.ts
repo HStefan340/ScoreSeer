@@ -1,4 +1,5 @@
-export interface Match{
+export interface Match
+{
     id: number;
     league: string;
     homeTeam: string;
@@ -9,7 +10,8 @@ export interface Match{
     awayScore: number| null;
 }
 
-export interface User{
+export interface User
+{
     id: number;
     email: string;
     username: string;

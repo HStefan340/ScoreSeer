@@ -1,4 +1,5 @@
-function HomePage(){
+function HomePage()
+{
     return(
         <div>
             <h1>ScoreSeer</h1>

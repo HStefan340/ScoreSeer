@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { apiGet } from "../api/client";
 import type { Match } from "../types";
 
-function MatchesPage(){
+function MatchesPage()
+{
     const [matches, setMatches] = useState<Match[]>([]);
     const [loading, setLoading] = useState(true);
 
