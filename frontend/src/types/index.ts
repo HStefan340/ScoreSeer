@@ -16,3 +16,12 @@ export interface User
     email: string;
     username: string;
 }
+
+export interface Prediction
+{
+    id: number;
+    matchId: number;
+    predictedHomeScore: number;
+    predictedAwayScore: number;
+    pointsAwarded: number | null;
+}

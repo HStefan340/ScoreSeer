@@ -5,7 +5,7 @@ const API_BASE = 'http://localhost:5037/api';
 export async function apiGet<T>(path: string, token?: string): Promise<T>
 {
     const headers: HeadersInit = {};
-    if(token) headers['Authorization'] = 'Bearer ${token}';
+    if(token) headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(`${API_BASE}${path}`, {headers});
     if(!response.ok) throw new Error(`Request failed: ${response.status}`);
@@ -17,7 +17,7 @@ export async function apiGet<T>(path: string, token?: string): Promise<T>
 export async function apiPost<T>(path: string, body: unknown, token?: string): Promise<T>
 {
     const headers: HeadersInit = { 'Content-Type': 'application/json' };
-    if(token) headers['Authorization'] = 'Bearer ${token}';
+    if(token) headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(`${API_BASE}${path}`, 
         {

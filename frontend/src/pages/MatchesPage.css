@@ -1,0 +1,13 @@
+/* Match card container */
+.match-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}
+
+/* Score input fields */
+.score-input
+{
+    width: 3rem;
+}
+
