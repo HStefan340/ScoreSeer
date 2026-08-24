@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiGet, apiPost } from "../api/client";
 import { useAuth } from "../api/AuthContext";
-import type { Match } from "../types";
+import type { Match, Prediction } from "../types";
 import './MatchesPage.css';
 
 function MatchesPage()
@@ -40,7 +40,32 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
     const [away, setAway] = useState('');
     const [message, setMessage] = useState< string | null >(null);
 
+    // The user's existing prediction (null if none yet)
+    const [existing, setExisting] = useState< Prediction | null >(null);
+
+    // Whether the edit form is open
+    const [editing, setEditing] = useState(false);
+
     const isUpcoming = match.status === 'scheduled';
+
+    // On load, check if the user already predicted this match
+    useEffect(() => 
+    {
+        if(!isUpcoming)
+            return;
+
+        apiGet< Prediction >(`/predictions/match/${match.id}`, token ??  undefined)
+            .then((data) => 
+            {
+                setExisting(data);
+                setHome(String(data.predictedHomeScore));
+                setAway(String(data.predictedAwayScore));
+            })
+            .catch(() =>
+            {
+                // 404 = no prediction yet, that's fine
+            });
+    }, [match.id, token, isUpcoming]);
 
     async function submitPrediction()
     {
@@ -62,6 +87,17 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
             );
 
             setMessage('Prediction saved!');
+
+            // Update the local "existing" state so the card reflects it
+            setExisting(
+                {
+                    id: existing?.id ?? 0,
+                    matchId: match.id,
+                    predictedHomeScore: Number(home),
+                    predictedAwayScore: Number(away),
+                    pointsAwarded: null,
+                });
+            setEditing(false);
         }
         catch{
             setMessage('Could not save prediction.');
@@ -79,29 +115,41 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
 
             {isUpcoming && (
                 <div>
-                    <input
-                    type = "number"
-                    min = "0"
-                    placeholder = "0"
-                    value = {home}
-                    onChange = {(e) => setHome(e.target.value)}
-                    className = "score-input"
-                    />
-                    {' - '}
-                    <input
-                    type = "number"
-                    min = "0"
-                    placeholder = "0"
-                    value = {away}
-                    onChange = {(e) => setAway(e.target.value)}
-                    className = "score-input"
-                    />
-                    <button onClick = {submitPrediction}>Predict</button>
-                    {message && <span> {message}</span>}
-                    </div>
+                    {existing && !editing ? (
+                        // Show the existing prediction with an edit button
+                        <div>
+                            <span>Your prediction: {existing.predictedHomeScore} - {existing.predictedAwayScore}</span>
+                            <button onClick = {() => setEditing(true)}> Edit</button>
+                        </div>
+                    ) : (
+                        // Show the input form (new prediction or editing)
+                        <div>                        
+                            <input
+                                type = "number"
+                                min = "0"
+                                placeholder = "0"
+                                value = {home}
+                                onChange = {(e) => setHome(e.target.value)}
+                                className = "score-input"
+                            />
+                            {' - '}
+                            <input
+                                type = "number"
+                                min = "0"
+                                placeholder = "0"
+                                value = {away}
+                                onChange = {(e) => setAway(e.target.value)}
+                                className = "score-input"
+                            />
+
+                        <button onClick = {submitPrediction}>{existing ? 'Update' : 'Predict'}</button>
+                        {message && <span> {message}</span>}
+                        </div>
+                    )}
+                </div>
             )}
         </div>
-    )
+    );
 }
 
 export default MatchesPage;
