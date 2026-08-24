@@ -25,3 +25,12 @@ export interface Prediction
     predictedAwayScore: number;
     pointsAwarded: number | null;
 }
+
+export interface Group
+{
+    id: number;
+    name: string;
+    inviteCode: string;
+    role: string;
+    memberCount: number;
+}

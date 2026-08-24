@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import MatchesPage from "./pages/MatchesPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import GroupsPage from "./pages/GroupsPage";
 import './App.css';
 
 function App() 
@@ -35,6 +36,7 @@ function App()
     <Routes>
       <Route path = "/" element = {<HomePage />} />
       <Route path = "/matches" element = {<MatchesPage />} />
+      <Route path = "/groups" element = {<GroupsPage />} />
       {/* Any unknown path goes home */}
       <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>
@@ -50,7 +52,7 @@ function Navigation()
 
   return(
     <nav>
-      <Link to = "/">Home</Link> | <Link to = "matches">Matches</Link>
+      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link>
       {' | '}<span>Hi, {user?.username}</span>
       {' | '}<button onClick = {logout}>LogOut</button>
     </nav>

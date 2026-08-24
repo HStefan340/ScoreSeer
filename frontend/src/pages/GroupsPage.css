@@ -1,0 +1,11 @@
+.create-group
+{
+    margin: 1rem 0;
+}
+
+.group-card
+{
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}
