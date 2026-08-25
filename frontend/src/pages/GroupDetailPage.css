@@ -1,0 +1,24 @@
+.group-detail
+{
+    padding: 1rem;
+}
+
+.leaderboard-table
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.leaderboard-table th,
+.leaderboard-table td
+{
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.error-text
+{
+    color: red;
+}

@@ -34,3 +34,11 @@ export interface Group
     role: string;
     memberCount: number;
 }
+
+export interface LeaderboardEntry
+{
+    id: number;
+    username: string;
+    totalPoints: number;
+    predictionScored: number;
+}

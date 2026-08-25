@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../api/client";
+import "./RegisterPage.css"
 
 function RegisterPage()
 {
@@ -24,9 +25,9 @@ function RegisterPage()
     }
 
     return(
-        <div>
+        <div className = "auth-page">
             <h1>SignUp</h1>
-            <form onSubmit = {handleSubmit}>
+            <form className = "auth-form" onSubmit = {handleSubmit}>
                 <div>
                     <input type = "email" placeholder = "Email" value = {email}
                     onChange = {(e) => setEmail(e.target.value)} required />
@@ -39,10 +40,10 @@ function RegisterPage()
                     <input type = "password" placeholder = "Password" value = {password}
                     onChange = {(e) => setPassword(e.target.value)} required />
                 </div>
-                {error && <p style = {{ color: 'red' }}> {error} </p>}
+                {error && <p className = "auth-error"> {error} </p>}
                 <button type = "submit">SignUp</button>
             </form>
-            <p>
+            <p className = "auth-switch">
                 Already have an acoount? <Link to = "/login">LogIn</Link>
             </p>
         </div>

@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import GroupsPage from "./pages/GroupsPage";
 import './App.css';
+import GroupDetailPage from "./pages/GroupDetailPage";
 
 function App() 
 {
@@ -37,6 +38,7 @@ function App()
       <Route path = "/" element = {<HomePage />} />
       <Route path = "/matches" element = {<MatchesPage />} />
       <Route path = "/groups" element = {<GroupsPage />} />
+      <Route path = "/groups/:id" element = {<GroupDetailPage />} /> 
       {/* Any unknown path goes home */}
       <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>

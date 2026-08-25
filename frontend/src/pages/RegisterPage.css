@@ -1,0 +1,35 @@
+/* Register page container */
+.auth-page
+{
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+/* Form fields spacing */
+.auth-form input
+{
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    box-sizing: border-box;
+} 
+
+/* Submit button */ 
+.auth-form button
+{
+    width: 100%;
+    padding: 0.5rem;
+}
+
+/* Error message */
+.auth-error
+{
+    color: red;
+}
+
+/* Link to the other auth page */
+.auth-switch
+{
+    margin-top: 1rem;
+}

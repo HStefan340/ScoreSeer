@@ -3,6 +3,7 @@ import { apiGet, apiPost } from '../api/client';
 import { useAuth } from '../api/AuthContext';
 import type { Group } from '../types';
 import './GroupsPage.css';
+import { Link } from 'react-router-dom';
 
 function GroupsPage()
 {
@@ -69,6 +70,7 @@ function GroupsPage()
                         <strong> {group.name} </strong>
                         <span> - {group.memberCount} member(s) - your role in this group: {group.role}</span>
                         <div>Invite code: <code> {group.inviteCode} </code></div>
+                        <Link to = {`/groups/${group.id}`}> View leaderboard </Link>
                     </div>
                 ))
             )}

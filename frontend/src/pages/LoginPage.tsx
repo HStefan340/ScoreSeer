@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../api/client";
 import { useAuth } from "../api/AuthContext";
 import type { User } from "../types";
+import "./LoginPage.css"
 
 // The API returns a token + basic user info
 interface LoginResponse
@@ -34,9 +35,9 @@ function LoginPage()
     }
 
     return (
-        <div>
+        <div className = "auth-page">
             <h1>LogIn</h1>
-            <form onSubmit = {handleSubmit}>
+            <form className = "auth-form" onSubmit = {handleSubmit}>
                 <div>
                     <input type = "email" placeholder = "Email" value = {email}
                     onChange = {(e) => setEmail(e.target.value)} required />
@@ -45,10 +46,10 @@ function LoginPage()
                     <input type = "password" placeholder = "Password" value = {password}
                     onChange = {(e) => setPassword(e.target.value)} required />
                 </div>
-                {error && <p style ={{ color: 'red' }}> {error} </p>}
+                {error && <p className = "auth-error"> {error} </p>}
                 <button type = "submit">LogIn</button>
             </form>
-            <p>
+            <p className = "auth-switch">
                 You don't have an account? <Link to = "/register">SignUp</Link>
             </p>
         </div>
