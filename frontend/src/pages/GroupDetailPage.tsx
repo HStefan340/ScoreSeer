@@ -4,6 +4,7 @@ import { apiGet } from '../api/client';
 import { useAuth } from '../api/AuthContext';
 import type { LeaderboardEntry } from '../types';
 import './GroupDetailPage.css';
+import InviteMember from '../components/InviteMember';
 
 function GroupDetailPage()
 {
@@ -66,6 +67,8 @@ function GroupDetailPage()
                     </tbody>
                 </table>
             )}
+
+            {id && < InviteMember groupId = {id} />}
         </div>
     );
 }

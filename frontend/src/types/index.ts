@@ -42,3 +42,9 @@ export interface LeaderboardEntry
     totalPoints: number;
     predictionScored: number;
 }
+
+export interface UserSearchResult
+{
+    id: number;
+    username: string;
+}
