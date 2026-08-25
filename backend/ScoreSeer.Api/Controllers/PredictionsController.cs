@@ -91,7 +91,8 @@ public class PredictionsController : ControllerBase
                 .Select(p => new
                 {
                     p.Id,
-                    MatchId = p.Match.HomeTeam.Name,
+                    MatchId = p.MatchId,
+                    HomeTeam = p.Match.HomeTeam.Name,
                     AwayTeam = p.Match.AwayTeam.Name,
                     p.PredictedHomeScore,
                     p.PredictedAwayScore,

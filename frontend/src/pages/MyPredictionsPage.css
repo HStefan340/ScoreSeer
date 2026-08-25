@@ -1,0 +1,16 @@
+.my-predictions
+{
+    padding: 1rem;
+}
+
+.prediction-card
+{
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}
+
+.error-text
+{
+    color: red;
+}

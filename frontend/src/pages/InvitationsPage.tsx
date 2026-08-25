@@ -66,7 +66,7 @@ function InvitationsPage()
                         </span>
                     <div>
                         <button onClick = {() => respond(inv.id, true)}> Accept </button>
-                        <button onClick = {() => respond(inv.id, false)}> Reject </button>
+                        <button onClick = {() => respond(inv.id, false)}> Decline </button>
                     </div>
                 </div>
                 ))

@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import GroupsPage from "./pages/GroupsPage";
 import GroupDetailPage from "./pages/GroupDetailPage";
 import InvitationsPage from "./pages/InvitationsPage";
+import MyPredictionsPage from "./pages/MyPredictionsPage";
 import './App.css';
 
 
@@ -42,6 +43,7 @@ function App()
       <Route path = "/groups" element = {<GroupsPage />} />
       <Route path = "/groups/:id" element = {<GroupDetailPage />} /> 
       <Route path = "/invitations" element = {<InvitationsPage />} /> 
+      <Route path = "/my-predictions" element = {<MyPredictionsPage />} /> 
       {/* Any unknown path goes home */}
       <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>
@@ -57,7 +59,7 @@ function Navigation()
 
   return(
     <nav>
-      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link>
+      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link> | <Link to = "/my-predictions">My Predictions</Link>
       {' | '}<span>Hi, {user?.username}</span>
       {' | '}<button onClick = {logout}>LogOut</button>
     </nav>

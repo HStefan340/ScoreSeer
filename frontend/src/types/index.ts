@@ -57,3 +57,18 @@ export interface ReceivedInvitation
     senderUsername: string;
     createdAt: string;
 }
+
+export interface MyPredictionEntry
+{
+    id: number;
+    matchId: number;
+    homeTeam: string;
+    awayTeam: string;
+    predictedHomeScore: number;
+    predictedAwayScore: number;
+    actualHomeScore: number | null;
+    actualAwayScore: number | null;
+    matchStatus: string;
+    pointsAwarded: number | null;
+    kickoffAt: string;
+}
