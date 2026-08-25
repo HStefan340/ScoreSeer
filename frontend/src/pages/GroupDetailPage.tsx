@@ -61,7 +61,7 @@ function GroupDetailPage()
                                 <td>{index + 1}</td>
                                 <td>{entry.username}</td>
                                 <td>{entry.totalPoints}</td>
-                                <td>{entry.predictionScored}</td>
+                                <td>{entry.predictionsScored}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -40,11 +40,20 @@ export interface LeaderboardEntry
     id: number;
     username: string;
     totalPoints: number;
-    predictionScored: number;
+    predictionsScored: number;
 }
 
 export interface UserSearchResult
 {
     id: number;
     username: string;
+}
+
+export interface ReceivedInvitation
+{
+    id: number;
+    groupId: number;
+    groupName: string;
+    senderUsername: string;
+    createdAt: string;
 }

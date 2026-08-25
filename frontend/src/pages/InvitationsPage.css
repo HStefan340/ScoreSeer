@@ -1,0 +1,11 @@
+.invitations-page
+{
+    padding: 1rem;
+}
+
+.invitation-card
+{
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}

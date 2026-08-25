@@ -5,8 +5,10 @@ import MatchesPage from "./pages/MatchesPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import GroupsPage from "./pages/GroupsPage";
-import './App.css';
 import GroupDetailPage from "./pages/GroupDetailPage";
+import InvitationsPage from "./pages/InvitationsPage";
+import './App.css';
+
 
 function App() 
 {
@@ -39,6 +41,7 @@ function App()
       <Route path = "/matches" element = {<MatchesPage />} />
       <Route path = "/groups" element = {<GroupsPage />} />
       <Route path = "/groups/:id" element = {<GroupDetailPage />} /> 
+      <Route path = "/invitations" element = {<InvitationsPage />} /> 
       {/* Any unknown path goes home */}
       <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>
@@ -54,7 +57,7 @@ function Navigation()
 
   return(
     <nav>
-      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link>
+      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link>
       {' | '}<span>Hi, {user?.username}</span>
       {' | '}<button onClick = {logout}>LogOut</button>
     </nav>
