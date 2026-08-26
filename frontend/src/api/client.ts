@@ -30,3 +30,19 @@ export async function apiPost<T>(path: string, body: unknown, token?: string): P
 
     return response.json();
 }
+
+// Generic helper for DELETE requests
+export async function apiDelete(path: string, token?: string): Promise<void>
+{
+    const headers: HeadersInit = {};
+
+    if(token) headers['Authorization'] = `Bearer ${token}`;
+
+    const response = await fetch(`${API_BASE}${path}`,
+    {
+        method: 'DELETE',
+        headers,
+    });
+
+    if(!response.ok) throw new Error(`Request failed: ${response.status}`);
+}

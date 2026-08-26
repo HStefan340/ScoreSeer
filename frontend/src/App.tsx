@@ -8,7 +8,9 @@ import GroupsPage from "./pages/GroupsPage";
 import GroupDetailPage from "./pages/GroupDetailPage";
 import InvitationsPage from "./pages/InvitationsPage";
 import MyPredictionsPage from "./pages/MyPredictionsPage";
+import LeaguesPage from "./pages/LeaguesPage";
 import './App.css';
+
 
 
 function App() 
@@ -44,6 +46,7 @@ function App()
       <Route path = "/groups/:id" element = {<GroupDetailPage />} /> 
       <Route path = "/invitations" element = {<InvitationsPage />} /> 
       <Route path = "/my-predictions" element = {<MyPredictionsPage />} /> 
+      <Route path = "/leagues" element = {<LeaguesPage />} /> 
       {/* Any unknown path goes home */}
       <Route path = "*" element = {<Navigate to = "/" replace />} />
     </Routes>
@@ -59,7 +62,7 @@ function Navigation()
 
   return(
     <nav>
-      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link> | <Link to = "/my-predictions">My Predictions</Link>
+      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link> | <Link to = "/my-predictions">My Predictions</Link> | <Link to = "/leagues">Leagues</Link>
       {' | '}<span>Hi, {user?.username}</span>
       {' | '}<button onClick = {logout}>LogOut</button>
     </nav>

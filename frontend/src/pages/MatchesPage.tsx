@@ -9,26 +9,40 @@ function MatchesPage()
     const { token } = useAuth();
     const [matches, setMatches] = useState<Match[]>([]);
     const [loading, setLoading] = useState(true);
+    const [onlyFollowed, setOnlyFollowed] = useState(false);
 
     useEffect(() =>{
-        apiGet<Match[]>('/matches')
+
+        const endpoint = onlyFollowed ? '/matches/followed' : '/matches'
+        apiGet<Match[]>(endpoint, token ?? undefined)
             .then((data) => {
                 setMatches(data);
                 setLoading(false);
             })
             .catch(() => setLoading(false));
-    }, []);
+    }, [onlyFollowed, token]);
 
     if(loading) return <p>Loading matches...</p>
 
     return(
         <div>
             <h1>Matches</h1>
-            <ul>
-                {matches.map((m) =>(
+            
+            {/* Filter Toggle */}
+            <div className = "matches-filtered">
+
+                <button onClick = {() => setOnlyFollowed(false)} disabled = {!onlyFollowed}> All Matches </button>
+                <button onClick = {() => setOnlyFollowed(true)} disabled = {onlyFollowed}> Matches form my leagues only </button>
+
+            </div>
+
+            {matches.length === 0 ? (
+                <p>No matches to show</p>
+            ) : (
+                matches.map((m) =>(
                     <MatchCard key = {m.id} match = {m} token = {token} />
-                ))}
-            </ul>
+                ))
+            )}
         </div>
     );
 }

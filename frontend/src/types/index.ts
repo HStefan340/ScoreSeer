@@ -72,3 +72,10 @@ export interface MyPredictionEntry
     pointsAwarded: number | null;
     kickoffAt: string;
 }
+
+export interface League
+{
+    id: number;
+    name: string;
+    country: string;
+}
