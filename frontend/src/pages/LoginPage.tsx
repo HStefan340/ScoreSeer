@@ -36,7 +36,7 @@ function LoginPage()
 
     return (
         <div className = "auth-page">
-            <h1>LogIn</h1>
+            <h1>Log In</h1>
             <form className = "auth-form" onSubmit = {handleSubmit}>
                 <div>
                     <input type = "email" placeholder = "Email" value = {email}
@@ -47,10 +47,10 @@ function LoginPage()
                     onChange = {(e) => setPassword(e.target.value)} required />
                 </div>
                 {error && <p className = "auth-error"> {error} </p>}
-                <button type = "submit">LogIn</button>
+                <button type = "submit">Log In</button>
             </form>
             <p className = "auth-switch">
-                You don't have an account? <Link to = "/register">SignUp</Link>
+                You don't have an account? <Link to = "/register">Sign Up</Link>
             </p>
         </div>
     );

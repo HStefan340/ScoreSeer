@@ -1,0 +1,23 @@
+.home-page
+{
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.home-hero
+{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.home-section
+{
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.home-section h2
+{
+    margin-bottom: 0.5rem;
+}

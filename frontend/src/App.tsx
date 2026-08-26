@@ -17,13 +17,15 @@ function App()
 {
   const { token } = useAuth();
 
-  // Not logged in: only show login / register
+  // Not logged in: show the public landing page + login / register
   if(!token){
   return(
     <BrowserRouter>
 
+    <PublicNav />
     {/* Route definitions */}
     <Routes>
+      <Route path = "/" element = {<HomePage />} />
       <Route path = "/login" element = {<LoginPage />} />
       <Route path = "/register" element = {<RegisterPage />} />
       {/* Any other path redirects to login */}
@@ -62,9 +64,22 @@ function Navigation()
 
   return(
     <nav>
-      <Link to = "/">Home</Link> | <Link to = "/matches">Matches</Link> | <Link to = "/groups">Groups</Link> | <Link to = "/invitations">Invitations</Link> | <Link to = "/my-predictions">My Predictions</Link> | <Link to = "/leagues">Leagues</Link>
+      <Link to = "/"> Home </Link> | <Link to = "/matches"> Matches </Link> | <Link to = "/groups"> Groups </Link> | <Link to = "/invitations"> Invitations </Link> | <Link to = "/my-predictions"> My Predictions </Link> | <Link to = "/leagues"> Leagues </Link>
       {' | '}<span>Hi, {user?.username}</span>
       {' | '}<button onClick = {logout}>LogOut</button>
+    </nav>
+  );
+}
+
+function PublicNav()
+{
+  return (
+    <nav className = "public-nav">
+      <Link to = "/" className = "brand"> ScoreSeer </Link>
+      <div className = "public-nav-buttons">
+        <Link to = "/login"> Log In </Link>
+        <Link to = "/register"> Sign Up </Link>
+      </div>
     </nav>
   );
 }

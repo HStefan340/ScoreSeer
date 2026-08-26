@@ -26,7 +26,7 @@ function RegisterPage()
 
     return(
         <div className = "auth-page">
-            <h1>SignUp</h1>
+            <h1>Sign Up</h1>
             <form className = "auth-form" onSubmit = {handleSubmit}>
                 <div>
                     <input type = "email" placeholder = "Email" value = {email}
@@ -41,10 +41,10 @@ function RegisterPage()
                     onChange = {(e) => setPassword(e.target.value)} required />
                 </div>
                 {error && <p className = "auth-error"> {error} </p>}
-                <button type = "submit">SignUp</button>
+                <button type = "submit">Sign Up</button>
             </form>
             <p className = "auth-switch">
-                Already have an acoount? <Link to = "/login">LogIn</Link>
+                Already have an acoount? <Link to = "/login">Log In</Link>
             </p>
         </div>
     );

@@ -182,3 +182,23 @@
     border-right-color: var(--border);
   }
 }
+
+.public-nav
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.public-nav .brand
+{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.public-nav-buttons
+{
+  display: flex;
+  gap: 1rem;
+}
