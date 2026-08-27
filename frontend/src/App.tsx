@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate, NavLink } from "react-router-dom";
 import { useAuth } from "./api/AuthContext";
 import HomePage from "./pages/HomePage";
 import MatchesPage from "./pages/MatchesPage";
@@ -10,7 +10,7 @@ import InvitationsPage from "./pages/InvitationsPage";
 import MyPredictionsPage from "./pages/MyPredictionsPage";
 import LeaguesPage from "./pages/LeaguesPage";
 import './App.css';
-
+import './components/Navigation.css'
 
 
 function App() 
@@ -63,10 +63,25 @@ function Navigation()
   const { user, logout } = useAuth();
 
   return(
-    <nav>
-      <Link to = "/"> Home </Link> | <Link to = "/matches"> Matches </Link> | <Link to = "/groups"> Groups </Link> | <Link to = "/invitations"> Invitations </Link> | <Link to = "/my-predictions"> My Predictions </Link> | <Link to = "/leagues"> Leagues </Link>
-      {' | '}<span>Hi, {user?.username}</span>
-      {' | '}<button onClick = {logout}>LogOut</button>
+    <nav className = "nav">
+      <Link to = "/" className = "nav-logo">
+        <span className = "nav-logo-mark"></span>
+        <span className = "nav-logo-text"> SCORESEER </span>
+      </Link>
+
+      <div className = "nav-links">
+        <NavLink to = "/" end className = "nav-link"> Home </NavLink>
+        <NavLink to = "/matches" className = "nav-link"> Matches </NavLink>
+        <NavLink to = "/groups" className = "nav-link"> Groups </NavLink>
+        <NavLink to = "/invitations" className = "nav-link"> Invitations </NavLink>
+        <NavLink to = "/my-predictions" className = "nav-link"> My Predictions </NavLink>
+        <NavLink to = "/leagues" className = "nav-link"> Leagues </NavLink>
+      </div>
+
+      <div className = "nav-right">
+        <span className = "nav-greeting"> Hi, {user?.username} </span>
+        <button className = "nav-logout" onClick = {logout}> Log Out </button>
+      </div>
     </nav>
   );
 }

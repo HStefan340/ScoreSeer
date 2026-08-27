@@ -1,0 +1,123 @@
+/* Top navigation bar */
+.nav
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    height: 52px;
+    border-bottom: 2px solid var(--border);
+}
+
+/* Logo (gradient square + wordmark) */
+.nav-logo
+{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+}
+
+.nav-logo-mark
+{
+    width: 20px;
+    height: 20px;
+    background: var(--grad-primary);
+    /* Subtle breathing glow on the logo */
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow
+{
+    0%, 100% { box-shadow: 0 0 0 rgba(217, 70, 239, 0); }
+    50%      { box-shadow: 0 0 14px rgba(217, 70, 239, 0.5); }
+}
+
+.nav-logo-text
+{
+    font: 900 16px var(--font-display);
+    letter-spacing: -0.5px;
+    color: var(--text);
+}
+
+/* Center links */
+.nav-links
+{
+    display: flex;
+    gap: 16px;
+}
+
+.nav-link
+{
+    position: relative;
+    font: 600 10.5px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding-bottom: 2px;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover
+{
+    color: var(--text);
+}
+
+/* Animated underline that grow from center */
+.nav-link::after
+{
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -17px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--accent-magenta));
+    transition: left 0.25s ease, right 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after
+{
+    left: 0;
+    right: 0;
+}
+
+.nav-link.active
+{
+    color: var(--text);
+}
+
+/* Right side: greeting + logout */
+.nav-right
+{
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.nav-greeting
+{
+    font: 900 15.5px var(--font-display);
+    color: var(--text-muted);
+}
+
+.nav-logout
+{
+    padding: 6px 10px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: var(--text);
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.nav-logout:hover
+{
+    border-color: var(--cyan);
+    background: rgba(34, 211, 238, 0.08);
+}
