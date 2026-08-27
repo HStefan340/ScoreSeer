@@ -89,11 +89,15 @@ function Navigation()
 function PublicNav()
 {
   return (
-    <nav className = "public-nav">
-      <Link to = "/" className = "brand"> ScoreSeer </Link>
-      <div className = "public-nav-buttons">
-        <Link to = "/login"> Log In </Link>
-        <Link to = "/register"> Sign Up </Link>
+    <nav className = "nav">
+      <Link to = "/" className = "nav-logo"> 
+        <span className = "nav-logo-mark"></span>
+        <span className = "nav-logo-text"> SCORESEER</span>
+      </Link>
+
+      <div className = "nav-links">
+        <NavLink to = "/login" className = "nav-link"> Log In </NavLink>
+        <NavLink to = "/register" className = "nav-link"> Sign Up </NavLink>
       </div>
     </nav>
   );

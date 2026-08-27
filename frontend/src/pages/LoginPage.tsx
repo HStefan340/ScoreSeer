@@ -36,22 +36,43 @@ function LoginPage()
 
     return (
         <div className = "auth-page">
-            <h1>Log In</h1>
-            <form className = "auth-form" onSubmit = {handleSubmit}>
-                <div>
-                    <input type = "email" placeholder = "Email" value = {email}
-                    onChange = {(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <input type = "password" placeholder = "Password" value = {password}
-                    onChange = {(e) => setPassword(e.target.value)} required />
-                </div>
-                {error && <p className = "auth-error"> {error} </p>}
-                <button type = "submit">Log In</button>
-            </form>
-            <p className = "auth-switch">
-                You don't have an account? <Link to = "/register">Sign Up</Link>
-            </p>
+            <div className = "auth-col">
+                <div className = "auth-kicker"> WELCOME BACK </div>
+                <h1 className = "auth-title"> LOG IN </h1>
+
+                <form onSubmit = {handleSubmit}>
+                    <div className = "auth-filed">
+                        <div className = "auth-label"> Email </div>
+                        <input
+                            type = "email"
+                            className = "auth-input"
+                            placeholder = "email@example.com"
+                            value = {email}
+                            onChange = {(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className = "auth-field">
+                        <div className = "auth-label"> Password </div>
+                        <input
+                            type = "password"
+                            className = "auth-input"
+                            placeholder = "your password"
+                            value = {password}
+                            onChange = {(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <button type = "submit" className = "auth-submit"> Log In </button>
+                    {error && <p className = "auth-error"> {error} </p>}
+                </form>
+
+                <p className = "auth-switch">
+                    You don't have an account? <Link to = "/register"> Sign Up </Link>
+                </p>
+            </div>
         </div>
     );
 }
