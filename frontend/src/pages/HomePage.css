@@ -1,23 +1,181 @@
+/* Home page */
+
 .home-page
 {
-    padding: 1rem;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 26px 26px 40px;
+    animation: riseIn 0.5s ease;
 }
 
-.home-hero
+/* Hero */
+.home-kicker
 {
-    text-align: center;
-    margin-bottom: 2rem;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.16em;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
 }
 
-.home-section
+.home-title
 {
-    text-align: left;
-    margin-bottom: 1.5rem;
+    font: 900 42px var(--font-display);
+    letter-spacing: -1.6px;
+    line-height: 0.95;
+    margin: 0 0 10px;
+    color: var(--text);
 }
 
-.home-section h2
+.home-lead
 {
-    margin-bottom: 0.5rem;
+    font: 500 15px var(--font-body);
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 0 26px;
+}
+
+/* Scoring - 3 columns with dividers */
+.home-scoring
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 2px solid var(--border-strong);
+    margin-bottom: 24px;
+}
+
+.score-cell
+{
+    padding: 16px 18px;
+    border-right: 2px solid var(--border-strong);
+}
+
+.score-cell:last-child
+{
+    border-right: none;
+}
+
+.score-num
+{
+    font: 900 40px var(--font-display);
+    letter-spacing: -2px;
+    line-height: 1;
+}
+
+/* The "3" uses a cyan -> magenta gradient */
+.score-num-cyan
+{
+    background: linear-gradient(135deg, var(--cyan), var(--accent-magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.score-num-red
+{
+   color: var(--accent-red); 
+}
+
+.score-num-grey
+{
+    color: #5a5962;
+}
+
+.score-label
+{
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 4px 0 6px;
+}
+
+.score-desc
+{
+    font: 500 11px var(--font-body);
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Two-column guides */
+.home-guides
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 2px solid var(--border-strong);
+}
+
+.guide-col
+{
+    padding: 20px 20px 8px;
+}
+
+.guide-col-border
+{
+    border-right: 2px solid var(--border-strong);
+}
+
+.guide-title
+{
+    font: 800 13px var(--font-display);
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 14px;
+}
+
+.guide-step
+{
+    display: flex;
+    gap: 11px;
+    margin-bottom: 11px;
+    font: 500 12px var(--font-body);
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
+.guide-step b
+{
+    color: var(--text);
+}
+
+.guide-num
+{
+    font: 900 12px var(--font-display);
+    color: var(--cyan-light);
+    width: 14px;
+    flex-shrink: 0;
+}
+
+.guide-dot
+{
+    width: 7px;
+    height: 7px;
+    background: var(--grad-primary);
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+/* Leagues section */
+.home-leagues
+{
+    border-top: 2px solid var(--border-strong);
+    padding-top: 18px;
+    margin-top: 2px;
+}
+
+.home-leagues-text
+{
+    font: 500 12px var(--font-body);
+    color: var(--text-muted);
+    line-height: 1.5;
+    max-width: 640px;
+    margin: 0;
+}
+
+.home-leagues-text b
+{
+    color: var(--text-dim);
 }

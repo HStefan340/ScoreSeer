@@ -4,48 +4,58 @@ function HomePage()
 {
     return(
         <div className = "home-page">
-            <section className = "home-hero">
-                <h1> Welcome to ScoreSeer </h1>
-                <p> Predict football scores, earn points, and compete with your friends. </p>
-            </section>
+            {/* Hero section */}
+            <div className = "home-kicker"> PREDICT · EARN · COMPETE </div>
+            <h1 className = "home-title"> WELCOME TO<br />SCORESEER </h1>
+            <p className = "home-lead"> Predict football scores, earn points, and compete with your friends. </p>
 
-            <section className = "home-section">
-                <h2> How scoring works ? </h2>
-                <ul>
-                    <li><strong> 3 points </strong> - you predicted the exact score ( for example you predicted 2-1 and it ended 2-1 )</li>
-                    <li><strong> 1 point </strong> - you got the outcome right but not the exact score ( you predicted 2-1, it ended 3-0 - both outcomes: home team wins )</li>
-                    <li><strong> 0 points </strong> - you got the outcome wrong </li>
-                </ul>
-            </section>
+            {/* Scoring rules - 3 columns */}
+            <div className = "home-scoring">
+                <div className = "score-cell">
+                    <div className = "score-num score-num-cyan"> 3 </div>
+                    <div className = "score-label"> Points · Exact Score </div>
+                    <div className = "score-desc"> You predicted the exact score — e.g. you called 2-1 and it ended 2-1. </div>
+                </div>
 
-            <section className = " home-section">
-                <h2> How to make a prediction ? </h2>
-                <ol>
-                    <li> Go to the <strong> "Matches" </strong> page. </li>
-                    <li> Find an upcoming match and enter your predicted score. </li>
-                    <li> Press <strong> "Predict" </strong>, you can edit you prediction any time befor kick-off. </li>
-                    <li> Once the match is finished, points are added automatically. </li>
-                </ol>
-            </section>
+                <div className = "score-cell">
+                    <div className = "score-num score-num-red"> 1 </div>
+                    <div className = "score-label"> Point · Correct Outcome </div>
+                    <div className = "score-desc"> You predicted the correct outcome, but the score was wrong — you said 2-1, it ended 3-0 (home wins). </div>
+                </div>
 
-            <section className = "home-section">
-                <h2> Groups &amp; leaderboard </h2>
-                <ul>
-                    <li> Create a group from the <strong> "Groups" </strong> page - you will get an invite code and become its owner. </li>
-                    <li> Invite friends by searching their username and sending them an invitation. </li>
-                    <li> Received an invitation ? Check the <strong> "Invitations" </strong> page to accept or decline it </li>
-                    <li> each group has its own <strong> LEADERBOARD </strong> ranking members by their points </li>
-                </ul>
-            </section>
+                <div className = "score-cell">
+                    <div className = "score-num score-num-gray"> 0 </div>
+                    <div className = "score-label"> Points · Wrong Outcome </div>
+                    <div className = "score-desc"> You predicted the wrong outcome — you said 2-1, it ended 0-3 (away wins). </div>
+                </div>
+            </div>
 
-            <section className = "home-section">
-                <h2> Following leagues </h2>
-                <p>
-                    On the <strong> "Leagues" </strong> page you can follow the leagues you care about.
-                    Then, on the <strong> "Matches" </strong> page switch to <strong> "My leagues only" </strong> to see just 
-                    the matches from the leagues you follow.
+            {/* Two-column guides */}
+            <div className = "home-guides"> 
+                <div className = "guide-col guide-col-border">
+                    <div className = "guide-title"> HOW TO MAKE A PREDICTION </div>
+                    <div className = "guide-step"><span className = "guide-num"> 1 </span><span> Go to the <b>Matches</b> page. </span> </div>
+                    <div className = "guide-step"><span className = "guide-num"> 2 </span><span> Find an upcoming match and enter your predicted score. </span> </div>
+                    <div className = "guide-step"><span className = "guide-num"> 3 </span><span> Press <b>Predict</b> — edit any time before kick-off. </span> </div>
+                    <div className = "guide-step"><span className = "guide-num"> 4 </span><span> When the match ends, points are added automatically. </span> </div>
+                </div>
+
+                <div className = "guide-col">
+                    <div className = "guide-title"> GROUPS &amp; LEADERBOARD </div>
+                    <div className="guide-step"><span className="guide-dot"></span><span> Create a group from <b>Groups</b> — you get an invite code and become owner. </span></div>
+                    <div className="guide-step"><span className="guide-dot"></span><span> Invite friends by searching their username. </span></div>
+                    <div className="guide-step"><span className="guide-dot"></span><span> Check <b>Invitations</b> to accept or decline. </span></div>
+                    <div className="guide-step"><span className="guide-dot"></span><span> Each group has its own leaderboard ranking members by points. </span></div>
+                </div>
+            </div>
+
+            {/* Leagues section */}
+            <div className = "home-leagues">
+                <div className = "guide-title"> FOLLOWING LEAGUES </div>
+                <p className = "home-leagues-text">
+                    On the <b>Leagues</b> page, follow the leagues you care about. Then on <b>Matches</b> switch to <b>My leagues only</b> to see just the matches from the leagues you follow.
                 </p>
-            </section>
+            </div>
         </div>
     );
 }
