@@ -26,26 +26,56 @@ function RegisterPage()
 
     return(
         <div className = "auth-page">
-            <h1>Sign Up</h1>
-            <form className = "auth-form" onSubmit = {handleSubmit}>
-                <div>
-                    <input type = "email" placeholder = "Email" value = {email}
-                    onChange = {(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <input type = "text" placeholder = "Username" value = {username}
-                    onChange = {(e) => setUsername(e.target.value)} required />
-                </div>
-                <div>
-                    <input type = "password" placeholder = "Password" value = {password}
-                    onChange = {(e) => setPassword(e.target.value)} required />
-                </div>
-                {error && <p className = "auth-error"> {error} </p>}
-                <button type = "submit">Sign Up</button>
-            </form>
-            <p className = "auth-switch">
-                Already have an acoount? <Link to = "/login">Log In</Link>
-            </p>
+            <div className = "auth-col">
+                <div className = "auth-kicker"> JOIN THE GAME </div>
+                <h1 className = "auth-title"> SIGN UP </h1>
+
+                <form onSubmit = {handleSubmit}>
+                    <div className = "auth-field">
+                        <div className = "auth-label"> Email </div>
+                        <input
+                            type = "email"
+                            className = "auth-input"
+                            placeholder = "email@example.com"
+                            value = {email}
+                            onChange = {(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className = "auth-field">
+                        <div className = "auth-label"> Username </div>
+                        <input
+                            type = "text"
+                            className = "auth-input"
+                            placeholder = "Choose a username"
+                            value = {username}
+                            onChange = {(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className = "auth-field">
+                        <div className = "auth-label"> Password </div>
+                        <input
+                            type = "password"
+                            className = "auth-input"
+                            placeholder = "Choose a password"
+                            value = {password}
+                            onChange = {(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <button type = "submit" className = "auth-submit"> Create Account </button>
+                    {error && <p className = "auth-error"> {error} </p>}
+                </form>
+
+                <p className = "auth-switch">
+                    Already have an account? <Link to = "/login"> Log In </Link>
+                </p>
+                
+            </div>
         </div>
     );
 }

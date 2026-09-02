@@ -1,35 +1,133 @@
-/* Register page container */
+/* Register page */
 .auth-page
 {
-    max-width: 400px;
-    margin: 2rem auto;
-    padding: 1rem;
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* Form fields spacing */
-.auth-form input
+.auth-col
 {
-    width: 100%;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-    box-sizing: border-box;
-} 
+    width: 400px;
+    animation: riseIn 0.5s ease;
+}
 
-/* Submit button */ 
-.auth-form button
+/* Kicker label (gradient small caps) */
+.auth-kicker
+{
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.14em;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+}
+
+/* Big page title */
+.auth-title
+{
+    font: 800 44px var(--font-display);
+    letter-spacing: -1.5px;
+    margin: 0 0 28px;
+    color: var(--text);
+}
+
+/* Field group */
+.auth-field-group
+{
+    margin-bottom: 20px;
+}
+
+.auth-label
+{
+    font: 800 11px var(--font-display);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+/* Input wrapper (holds input + optional badge) */
+.auth-input
 {
     width: 100%;
-    padding: 0.5rem;
+    height: 50px;
+    background: var(--bg-input);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    padding: 0 15px;
+    font: 500 14px var(--font-body);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-input::placeholder
+{
+    color: var(--text-fade);
+}
+
+.auth-input:focus
+{
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+}
+
+/* Primary gradient button */
+.auth-submit
+{
+    width: 100%;
+    height: 56px;
+    background: var(--grad-primary);
+    color: #fff;
+    border: none;
+    font:800 12px var(--font-display);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 22px rgba(217, 70, 239, 0.4);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.auth-submit:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(217, 70, 239, 0.4);
+}
+
+.auth-submit:active
+{
+    transform: translateY(0);
 }
 
 /* Error message */
 .auth-error
 {
-    color: red;
+    color: #ff8a72;
+    font: 500 12px var(--font-body);
+    margin: 12px 0 0;
 }
 
-/* Link to the other auth page */
+/* Switch link */
 .auth-switch
 {
-    margin-top: 1rem;
+    margin-top: 22px;
+    font: 500 14px var(--font-body);
+    color: var(--text-fade);
+}
+
+.auth-switch a
+{
+    color: var(--cyan-light);
+    font: 500 14px var(--font-body);
+    text-decoration: none;
+}
+
+.auth-switch a:hover
+{
+    text-decoration: underline;
 }
