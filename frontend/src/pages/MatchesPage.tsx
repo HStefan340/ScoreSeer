@@ -22,29 +22,57 @@ function MatchesPage()
             .catch(() => setLoading(false));
     }, [onlyFollowed, token]);
 
-    if(loading) return <p>Loading matches...</p>
+    if(loading) return <p className = "matches-loading">Loading matches...</p>
 
     return(
-        <div>
-            <h1>Matches</h1>
-            
-            {/* Filter Toggle */}
-            <div className = "matches-filtered">
+        <div className = "matches-page">
+            {/* Header: title + filter toggle */}
+            <div className = "matches-header">
+                <div>
+                    <div className = "matches-kicker"> FIXTURES </div>
+                    <h1 className = "matches-title"> MATCHES </h1>
+                </div>
 
-                <button onClick = {() => setOnlyFollowed(false)} disabled = {!onlyFollowed}> All Matches </button>
-                <button onClick = {() => setOnlyFollowed(true)} disabled = {onlyFollowed}> Matches form my leagues only </button>
+                <div className = "matches-toggle">
+                    <button className = {!onlyFollowed ? 'toggle-btn toggle-active' : 'toggle-btn'}
+                        onClick = {() => setOnlyFollowed(false)}> All Matches </button>
 
+                    <button className = {onlyFollowed ? 'toggle-btn toggle-active' : 'toggle-btn'}
+                        onClick = {() => setOnlyFollowed(true)}> My Leagues </button>
+                </div>
             </div>
 
+            {/* Matches list */}
             {matches.length === 0 ? (
-                <p>No matches to show</p>
+                <p className = "matches-empty"> No matches found. </p>
             ) : (
-                matches.map((m) =>(
-                    <MatchCard key = {m.id} match = {m} token = {token} />
-                ))
+                <div className = "matches-list">
+                    {matches.map((match) => (
+                        <MatchCard key = {match.id} match = {match} token = {token} />
+                    ))}
+                </div>
             )}
         </div>
     );
+}
+
+// Generate a consistent color frm a team name (for the logo square)
+function teamColor(name: string): string 
+{
+    let hash = 0;
+    for(let i = 0; i < name.length; i++)
+    {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const hue = Math.abs(hash) %360;
+    return `hsl(${hue}, 55%, 42%)`;
+}
+
+// Get initials for the logo (first 3 letters, uppercase)
+function teamInitials(name: string): string
+{
+    return name.slice(0, 3).toUpperCase();
 }
 
 // A single match with a predicition form
@@ -119,49 +147,87 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
     }
 
     return (
-        <div className = "match-card">
-            <strong>{match.homeTeam} vs {match.awayTeam}</strong>
-            <span> - {match.league} ({match.status})</span>
-
-            {match.status === 'finished' && (
-                <p>Final Result: {match.homeScore} - {match.awayScore}</p>
-            )}
-
-            {isUpcoming && (
-                <div>
-                    {existing && !editing ? (
-                        // Show the existing prediction with an edit button
-                        <div>
-                            <span>Your prediction: {existing.predictedHomeScore} - {existing.predictedAwayScore}</span>
-                            <button onClick = {() => setEditing(true)}> Edit</button>
-                        </div>
-                    ) : (
-                        // Show the input form (new prediction or editing)
-                        <div>                        
-                            <input
-                                type = "number"
-                                min = "0"
-                                placeholder = "0"
-                                value = {home}
-                                onChange = {(e) => setHome(e.target.value)}
-                                className = "score-input"
-                            />
-                            {' - '}
-                            <input
-                                type = "number"
-                                min = "0"
-                                placeholder = "0"
-                                value = {away}
-                                onChange = {(e) => setAway(e.target.value)}
-                                className = "score-input"
-                            />
-
-                        <button onClick = {submitPrediction}>{existing ? 'Update' : 'Predict'}</button>
-                        {message && <span> {message}</span>}
-                        </div>
-                    )}
+        <div className = "match-row">
+            {/* Left: league label + teams */}
+            <div className = "match-info">
+                <div className = "match-league">
+                    {match.league} · {match.status === 'finished' ? 'FULL TIME' : 'SCHEDULED'}
                 </div>
-            )}
+
+                <div className = "match-teams">
+                    <span className = "team-logo" style ={{background: teamColor(match.homeTeam) }}>
+                        {teamInitials(match.homeTeam)}
+                    </span>
+
+                    <span className = "team-name"> {match.homeTeam} </span>
+
+                    {match.status === 'finished' ? (
+                        <span className = "match-score"> {match.homeScore}&nbsp;-&nbsp;{match.awayScore} </span>
+                    ) : (
+                        <span className = "match-vs"> vs </span>
+                    )}
+
+                    <span className = "team-logo" style ={{background: teamColor(match.awayTeam) }}>
+                        {teamInitials(match.awayTeam)}
+                    </span>
+
+                    <span className = "team-name"> {match.awayTeam} </span>
+                </div>
+            </div>
+
+            {/* Right: Your pick area *varies by state) */}
+            <div className = " match-pick">
+                {match.status === 'finished' ? (
+                    // Finished - no interavtive pick  here (history is in My Predictions)
+                    <span className = "match-final-badge"> FULL TIME </span>
+                ) : existing && !editing ? (
+                    // Has a prediction - show it + edit
+                    <>
+                        <div className = "pick-label-wrap">
+                            <div className = "pick-label"> YOUR PICK </div>
+                            <div className = "pick-values">
+                                <span className = "pick-box pick-box-set"> {existing.predictedHomeScore} </span>
+                                <span className = "pick-colon"> : </span>
+                                <span className = "pick-box pick-box-set"> {existing.predictedAwayScore} </span>
+                            </div>
+                        </div>
+
+                        <button className = "pick-btn-edit" onClick = {() => setEditing(true)}> EDIT </button>
+                    </>
+                ) : (
+                    // Ready to predict (new or editing)
+                    <>
+                        <div className = "pick-label-wrap">
+                            <div className = "pick-label"> YOUR PICK </div>
+                            <div className = "pick-values">
+                                <input
+                                    type = "number"
+                                    min = "0"
+                                    className = {`pick-input ${home === '' ? 'pick-input-glow' : '' }`}
+                                    placeholder = "-"
+                                    value = {home}
+                                    onChange = {(e) => setHome(e.target.value)}
+                                />
+
+                                <span className = "pick-colon">:</span>
+                                <input
+                                    type = "number"
+                                    min = "0"
+                                    className = "pick-input"
+                                    placeholder = "-"
+                                    value = {away}
+                                    onChange = {(e) => setAway(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <button className = "pick-btn-predict" onClick = {submitPrediction}>
+                            {existing ? 'UPDATE' : 'PREDICT'}
+                        </button>
+                        {message && <span className = "pick-message"> {message} </span>}
+                    </>
+                )}
+            </div>
         </div>
     );
 }

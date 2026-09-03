@@ -1,17 +1,297 @@
-/* Match card container */
-.match-card {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0.5rem 0;
+/* Matches page */
+.matches-page
+{
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 26px 40px 40px;
+    animation: riseIn 0.5s ease;
 }
 
-/* Score input fields */
-.score-input
+.matches-loading,
+.matches-empty
 {
-    width: 3rem;
+    padding: 26px 40px;
+    color: var(--text-muted);
+    font: 500 14px var(--font-body);
 }
 
-.matches-filtered
+/* Header: title left, toggle right */
+.matches-header
 {
-    margin: 1rem 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
+
+.matches-kicker
+{
+    font: 800 11px var(--font-display);
+    letter-spacing: 0.14em;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+}
+
+.matches-title
+{
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0;
+    color: var(--text);
+}
+
+/* Segment toggle (All matches / My leagues) */
+.matches-toggle
+{
+    display: flex;
+    border: 2px solid var(--border-strong);
+}
+
+.toggle-btn
+{
+    padding: 10px 18px;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    font: 600 11px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.toggle-btn:hover
+{
+    color: var(--text);
+}
+
+.toggle-active
+{
+    background: var(--grad-primary);
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Matches list container */
+.matches-list
+{
+    border-top: 2px solid var(--border-soft);
+}
+
+/* Match row */
+.match-row
+{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 2px solid var(--border-soft);
+    animation: riseIn 0.4s ease;
+}
+
+/* Left side: league + teams */
+.match-info
+{
+    min-width: 0;
+}
+
+.match-league
+{
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 10px;
+}
+
+.match-teams
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: 700 16px var(--font-display);
+    color: var(--text);
+}
+
+.team-logo
+{
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 800 9px var(--font-display);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.team-name
+{
+    color: var(--text);
+}
+
+.match-vs
+{
+    color: var(--text-fade);
+    font-weight: 500;
+    font-size: 13px;
+    padding: 0 2px;
+}
+
+.match-score
+{
+    font: 900 19px var(--font-display);
+    color: #fff;
+    padding: 0 8px;
+}
+
+/* Right side : Your pick */
+.match-pick
+{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+} 
+
+.pick-label
+{
+    font: 800 8px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 6px;
+    text-align: right;
+}
+
+.pick-label-wrap
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.pick-values
+{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.pick-colon
+{
+    color: var(--text-fade);
+}
+
+/* Score box (exisitng prediction, read-only) */
+.pick-box
+{
+    width: 34px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 800 18px var(--font-display);
+}
+
+.pick-box-set
+{
+    background: var(--bg-elevated);
+    border: 2px solid rgba(34, 211, 238, 0.5);
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.25);
+    color: var(--cyan-light);
+}
+
+/* Score input (editable) */
+.pick-input
+{
+    width: 34px;
+    height: 38px;
+    text-align: center;
+    background: var(--bg-elevated);
+    border: 2px solid rgba(34, 211, 238, 0.5);
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.25);
+    color: var(--cyan-light);
+    font: 800 17px var(--font-display);
+    outline: none;
+    /* hide number spinners */
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.pick-input::-webkit-outer-spin-button,
+.pick-input::-webkit-inner-spin-button
+{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pick-input::placeholder
+{
+    color: var(--text-fade);
+}
+
+/* First empty input pulses to invite a prediction */
+.pick-input-glow
+{
+    background: var(--bg-page);
+    animation: glowP 2.4s infinite;
+}
+
+/* Edit button (outline) */
+.pick-btn-edit
+{
+    padding: 9px 14px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: var(--text);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.pick-btn-edit:hover
+{
+    border-color: var(--cyan);
+}
+
+/* Predict button (gradient) */
+.pick-btn-predict
+{
+    padding: 10px 16px;
+    background: var(--grad-primary);
+    border: none;
+    color: #fff;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.06em;
+    box-shadow: 0 6px 20px rgba(217, 70, 239, 0.4);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.pick-btn-predict:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 8px 26px rgba(217, 70, 239, 0.55);
+}
+
+/* Finished badge */
+.match-final-badge
+{
+    padding: 8px 12px;
+    border: 2px solid var(--border);
+    color: var(--text-muted);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.06em;
+}
+
+.pick-message
+{
+    font: 500 11px var(--font-body);
+    color: var(--cyan-light);
+}
+
