@@ -1,11 +1,201 @@
-.create-group
+/* Groups Page */
+.groups-page
 {
-    margin: 1rem 0;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 26px 40px 40px;
+    animation: riseIn 0.5s ease;
 }
 
-.group-card
+.groups-kicker
 {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0.5rem 0;
+    font: 800 11px var(--font-display);
+    letter-spacing: 0.14em;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+}
+
+.groups-title
+{
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0 0 24px;
+    color: var(--text);
+}
+
+/* Create a group row */
+.create-group
+{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    max-width: 600px;
+}
+
+.create-group-input
+{
+    flex: 1;
+    height: 46px;
+    background: var(--bg-input);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    padding: 0 14px;
+    font: 500 13px var(--font-body);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-group-input::placeholder
+{
+    color: var(--text-fade);
+}
+
+.create-group-input:focus
+{
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+}
+
+.create-group-btn
+{
+    padding: 0 22px;
+    height: 46px;
+    background: var(--grad-primary);
+    color: #fff;
+    border: none;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(217, 70, 239, 0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.create-group-btn:hover 
+{
+    transform: translateY(-1px);
+    box-shadow: 0 8px 26px rgba(217, 70, 239, 0.5);
+}
+
+.groups-message 
+{
+    font: 500 13px var(--font-body);
+    color: var(--cyan-light);
+    margin: 0 0 18px;
+}
+
+.groups-empty 
+{
+    font: 500 14px var(--font-body);
+    color: var(--text-muted);
+    margin-top: 20px;
+}
+
+/* Group cards */
+.groups-list 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.group-card 
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 2px solid var(--border-strong);
+    padding: 18px 20px;
+    animation: riseIn 0.4s ease;
+    transition: border-color 0.2s ease;
+}
+
+.group-card:hover 
+{
+    border-color: rgba(34, 211, 238, 0.3);
+}
+
+.group-card-head 
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.group-name 
+{ 
+    font: 800 18px var(--font-display);
+    letter-spacing: -0.3px;
+    color: var(--text);
+}
+
+.group-role 
+{
+    padding: 3px 8px;
+    font: 800 8px var(--font-display);
+    letter-spacing: 0.08em;
+}
+
+.group-role-owner 
+{
+    background: rgba(236, 48, 19, 0.16);
+    border: 1px solid rgba(236, 48, 19, 0.5);
+    color: #ff8a72;
+}
+
+.group-role-member 
+{
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+}
+
+.group-card-meta 
+{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font: 600 10.5px var(--font-display);
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.group-invite 
+{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.group-invite-code 
+{  
+    font: 600 11px var(--font-body);
+    color: var(--cyan-light);
+    background: #101a24;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    padding: 2px 8px;
+    letter-spacing: 0.1em;
+}
+
+.group-view-btn 
+{
+    padding: 9px 14px;
+    border: 2px solid rgba(34, 211, 238, 0.5);
+    color: var(--cyan-light);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-view-btn:hover 
+{
+    background: rgba(34, 211, 238, 0.1);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
 }

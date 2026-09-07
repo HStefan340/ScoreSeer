@@ -46,33 +46,47 @@ function GroupsPage()
     }
 
     return (
-        <div>
-            <h1>My Groups</h1>
+        <div className = "groups-page">
+            <div className = "groups-kicker"> COMPETE WITH FRIENDS </div>
+            <h1 className = "groups-title"> MY GROUPS </h1>
 
-            {/* Create group form */}
-            <div className = "create-group">
+            {/* Create group row */}
+            <div className = "create-group"> 
                 <input
                     type = "text"
+                    className = "create-group-input"
                     placeholder = "New group name"
                     value = {newName}
-                    onChange = {(e) => setNewName(e.target.value)}
+                    onChange={(e) => setNewName(e.target.value)}
                 />
-                <button onClick = {createGroup} >Create Group</button>
-                {message && <span> {message} </span>}
+                <button className = "create-group-btn" onClick = {createGroup}> Create Group </button>
             </div>
+
+            {message && <p className = "groups-message"> {message} </p>}
 
             {/* List of groups */}
             {groups.length === 0 ? (
-                <p>You're not part of any group</p>
-            ) : (
-                groups.map((group) => (
-                    <div key = {group.id} className = "group-card">
-                        <strong> {group.name} </strong>
-                        <span> - {group.memberCount} member(s) - your role in this group: {group.role}</span>
-                        <div>Invite code: <code> {group.inviteCode} </code></div>
-                        <Link to = {`/groups/${group.id}`}> View leaderboard </Link>
-                    </div>
-                ))
+                <p className = "groups-empty"> You're not part of any group yet. </p>
+            ) :(
+                <div className = "groups-list">
+                    {groups.map((group) => (
+                        <div key = {group.id} className = "group-card">
+                            <div className = "group-card-info">
+                                <div className = "group-card-head">
+                                    <span className = "group-name"> {group.name} </span>
+                                    <span className = {`group-role ${group.role === 'owner' ? 'group-role-owner' : 'group-role-member' }`}> {group.role.toUpperCase()} </span>
+                                </div>
+                                <div className = "group-card-meta">
+                                    <span> {group.memberCount} member(s) </span>
+                                    <span className = "group-invite">INVITE CODE 
+                                        <span className = "group-invite-code"> {group.inviteCode} </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <Link to = {`/groups/${group.id}`} className = "group-view-btn"> VIEW LEADERBOARD → </Link>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );
