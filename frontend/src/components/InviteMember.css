@@ -1,0 +1,113 @@
+/* Invite Members */
+.invite-title
+{
+    font: 800 13px var(--font-display);
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 12px;
+}
+
+/* Search row */
+.invite-search
+{
+    display: flex;
+    gap: 10px;
+    max-width: 420px;
+}
+
+.invite-input
+{
+    flex: 1;
+    height: 42px;
+    background: var(--bg-input);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    padding: 0 13px;
+    font: 500 12px var(--font-body);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.invite-input::placeholder
+{
+    color: var(--text-fade);
+}
+
+.invite-input:focus
+{
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+}
+
+.invite-search-btn
+{
+    padding: 0 18px;
+    height: 42px;
+    background: var(--grad-primary);
+    border: none;
+    color: #fff;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(217, 70, 239, 0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.invite-search-btn:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 8px 26px rgba(217, 70, 239, 0.5);
+}
+
+.inivte-message
+{
+    font: 500 12px var(--font-body);
+    color: var(--cyan-light);
+    margin: 12px 0 0;
+}
+
+/* Results */
+.invite-results
+{
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    max-width: 420px;
+}
+
+.invite-results
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--border-soft);
+    animation: riseIn 0.3s ease;
+}
+
+.inivte-result-name
+{
+    font: 700 13px var(--font-display);
+    color: var(--text);
+}
+
+.invite-result-btn
+{
+    padding: 7px 14px;
+    border: 2px solid rgba(34, 211, 238, 0.5);
+    background: transparent;
+    color: var(--cyan-light);
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.invite-result-btn:hover
+{
+    background: rgba(34, 211, 238, 0.1);
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.2);
+}

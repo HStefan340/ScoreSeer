@@ -106,6 +106,7 @@
 .group-card 
 {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
@@ -180,6 +181,41 @@
     border: 1px solid rgba(34, 211, 238, 0.35);
     padding: 2px 8px;
     letter-spacing: 0.1em;
+}
+
+.group-invite-panel
+{
+    flex-basis: 100%;
+    border-top: 2px solid var(--border-soft);
+    padding-top: 16px;
+    animation: riseIn 0.3s ease;
+}
+
+.group-card-actions
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.group-invite-btn
+{
+    padding: 9px 16px;
+    background: var(--grad-primary);
+    border: none;
+    color: #fff;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 5px 16px rgba(217, 70, 239, 0.3);
+    cursor: pointer;
+    transition: transform 0.15 ease, box-shadow 0.2s ease;
+}
+
+.group-invite-btn:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 7px 22px rgba(217, 70, 239, 0.45);
 }
 
 .group-view-btn 

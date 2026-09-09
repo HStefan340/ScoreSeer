@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { apiGet, apiPost } from '../api/client';
 import { useAuth } from '../api/AuthContext';
 import type { UserSearchResult } from '../types';
+import './InviteMember.css'
 
 function InviteMember({ groupId }: {groupId: string})
 {
@@ -57,25 +58,27 @@ function InviteMember({ groupId }: {groupId: string})
 
     return(
         <div className = "invite-member">
-            <h2>Invite a player</h2>
-            <div>
+            <h2 className = "inivte-title"> Invite a player </h2>
+
+            <div className = "invite-search">
                 <input
-                type = "text"
-                placeholder = "Search username..."
-                value = {query}
-                onChange = {(e) => setQuery(e.target.value)}
+                    type = "text"
+                    className = "invite-input"
+                    placeholder = "Search username..."
+                    value = {query}
+                    onChange = {(e) => setQuery(e.target.value)}
                 />
-                <button onClick = {searchUsers}> Search </button>
+                <button className = "invite-search-btn" onClick = {searchUsers}> Search </button>
             </div>
 
-            {message && <p> {message} </p>}
-            
+            {message && <p className = "invite-message"> {message} </p>}
+
             {results.length > 0 && (
-                <ul className = "search-results">
-                    {results.map((user) => (
-                        <li key = {user.id}>
-                            {user.username}
-                            <button onClick = {() => invite(user.id)}> Invite </button>
+                <ul className = "invite-results">
+                    {results.map((u) => (
+                        <li key = {u.id} className = "invite-result">
+                            <span className = "invite-result-name"> {u.username} </span>
+                            <button className = "invite-result-btn" onClick = {() => invite(u.id)}> Invite </button>
                         </li>
                     ))}
                 </ul>

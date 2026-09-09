@@ -1,41 +1,131 @@
+/* Group detali / Leaderboard */
 .group-detail
 {
-    padding: 1rem;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 22px 40px 40px;
+    animation: riseIn 0.5s ease;
 }
 
-.leaderboard-table
+.back-link
 {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+    display: inline-block;
+    font: 700 10px var(--font-display);
+    letter-spacing: 0.04;
+    text-transform: uppercase;
+    color: var(--cyan-light);
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: opacity 0.2 ease;
 }
 
-.leaderboard-table th,
-.leaderboard-table td
+.back-link:hover
 {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    text-align: left;
+    opacity: 0.7;
 }
 
-.error-text
+.detail-title
 {
-    color: red;
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0 0 20px;
+    color: var(--text);
 }
 
-.invite-member
+.detail-status
 {
-    margin-top: 2rem;
+    font: 500 14px var(--font-body);
+    color: var(--text-muted);
 }
 
-.search-results
+.detail-error
 {
-    list-style: none;
-    padding: 0;
+    color: #ff8a72;
 }
 
-.search-results li
+/* Leaderboard table */
+.leaderboard
 {
-    padding: 0.5rem 0;
+    border: 2px solid var(--border-strong);
 }
 
+.lb-head
+{
+    display: grid;
+    grid-template-columns: 80px 1fr 140px 160px;
+    padding: 13px 18px;
+    border-bottom: 2px solid var(--border-strong);
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+}
+
+.lb-row
+{
+    display: grid;
+    grid-template-columns: 80px 1fr 140px 160px;
+    padding: 16px 18px;
+    align-items: center;
+    border-bottom: 2px solid var(--border-soft);
+    animation: riseIn 0.4 ease;
+}
+
+.lb-row:last-child
+{
+    border-bottom: none;
+}
+
+.lb-row-me
+{
+    background: rgba(236, 48, 19, 0.06);
+}
+
+.lb-rank
+{
+    font: 900 18px var(--font-display);
+    color: var(--text-muted);
+}
+
+.lb-rank-first
+{
+    background: linear-gradient(135deg, var(--cyan), var(--accent-magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.lb-player
+{
+    font: 700 14px var(--font-display);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lb-row-me .lb-player
+{
+    color: #ff8a72;
+}
+
+.lb-you
+{
+    font: 700 8px var(--font-display);
+    letter-spacing: 0.06em;
+    background: rgba(236, 48, 19, 0.2);
+    color: #ff8a72;
+    padding: 2px 6px;
+}
+
+.lb-points
+{
+    font: 800 16px var(--font-display);
+    color: var(--cyan-light);
+}
+
+.lb-preds
+{
+    font: 600 16px var(--font-body);
+    color: var(--text-muted);
+}

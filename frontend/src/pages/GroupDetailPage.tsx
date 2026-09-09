@@ -4,11 +4,10 @@ import { apiGet } from '../api/client';
 import { useAuth } from '../api/AuthContext';
 import type { LeaderboardEntry } from '../types';
 import './GroupDetailPage.css';
-import InviteMember from '../components/InviteMember';
 
 function GroupDetailPage()
 {
-    const { token } = useAuth();
+    const { token, user } = useAuth();
     const { id } = useParams(); // group id from the URL
     const [leaderboard, setLeaderboard] = useState< LeaderboardEntry[] >([]);
     const [loading, setLoading] = useState(true);
@@ -36,39 +35,42 @@ function GroupDetailPage()
 
     return(
         <div className = "group-detail">
-            <Link to = "/groups">← Back to groups</Link>
-            <h1>Leaderboard</h1>
+            <Link to = "/groups" className = "back-link"> ← Back to groups </Link>
+            <h1 className = "detail-title"> LEADERBOARD </h1>
 
             {loading ? (
-                <p>Loading leaderboard...</p>
+                <p className = "detail-status"> Loading leaderboard... </p>
             ) : error ? (
-                <p className = "error-text"> {error} </p>
-            ): leaderboard.length === 0 ? (
-                <p>No members yet.</p>
+                <p className = "detail-status detail-error"> {error} </p>
+            ) : leaderboard.length === 0 ? (
+                <p className = "detail-status"> No members yet. </p>
             ) : (
-                <table className = "leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Player</th>
-                            <th>Point</th>
-                            <th>Predictions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {leaderboard.map((entry, index) =>(
-                            <tr key = {entry.id}>
-                                <td>{index + 1}</td>
-                                <td>{entry.username}</td>
-                                <td>{entry.totalPoints}</td>
-                                <td>{entry.predictionsScored}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className = "leaderboard">
+                    <div className = "lb-head">
+                        <span> # </span>
+                        <span> Player </span>
+                        <span> Points </span>
+                        <span> Predictions </span>
+                    </div>
+
+                    {leaderboard.map((entry, index) =>
+                    {
+                        const isMe = entry.id === user?.id;
+                        return(
+                            <div key = {entry.id} className = {`lb-row ${isMe ? 'lb-row-me' : ''}`}>
+                                <span className = {`lb-rank ${index === 0 ? 'lb-rank-first' : ''}`}> {index + 1} </span>
+                                <span className = "lb-player">
+                                    {entry.username} {isMe && <span className = "lb-you"> YOU </span>}
+                                </span>
+
+                                <span className = "lb-points"> {entry.totalPoints} </span>
+                                <span className = "lb-preds"> {entry.predictionsScored} </span>
+                            </div>
+                        );
+                    })}
+                </div>
             )}
 
-            {id && < InviteMember groupId = {id} />}
         </div>
     );
 }

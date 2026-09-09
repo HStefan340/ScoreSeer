@@ -4,6 +4,7 @@ import { useAuth } from '../api/AuthContext';
 import type { Group } from '../types';
 import './GroupsPage.css';
 import { Link } from 'react-router-dom';
+import InviteMember from '../components/InviteMember';
 
 function GroupsPage()
 {
@@ -11,6 +12,7 @@ function GroupsPage()
     const [groups, setGroups] = useState< Group[] >([]);
     const [newName, setNewName] = useState('');
     const [message, setMessage] = useState< string | null >(null);
+    const [openInvite, setOpenInvite] = useState< number | null>(null);
 
     // Load user's groups
     const loadGroups = useCallback(() =>
@@ -83,7 +85,19 @@ function GroupsPage()
                                     </span>
                                 </div>
                             </div>
+                            <div className = "group-card-actions">
+                                <button className ="group-invite-btn" onClick = {() => setOpenInvite(openInvite === group.id ? null : group.id)}>
+                                    {openInvite === group.id ? 'Close' : 'Invite'}
+                                </button>
                             <Link to = {`/groups/${group.id}`} className = "group-view-btn"> VIEW LEADERBOARD → </Link>
+                            </div>
+
+                            {/* Expandable invite form for this group */}
+                            {openInvite === group.id && (
+                                <div className = "group-invite-panel">
+                                    <InviteMember groupId = {String(group.id)} />
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
