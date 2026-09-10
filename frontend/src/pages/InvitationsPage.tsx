@@ -49,27 +49,44 @@ function InvitationsPage()
     }
 
     return (
-        <div className = "invitation-page">
-            <h1>Invitations</h1>
-            {message && <p> { message} </p>}
+        <div className = "invitations-page">
+            <div className = "invitations-header">
+                <h1 className = "invitations-tile"> INVITATIONS </h1>
+
+                {invitations.length > 0 && (
+                    <span className = "invitations-count"> {invitations.length} </span>
+                )}
+            </div>
+
+            {message && <p className = "invitations-message"> {message} </p>}
 
             {loading ? (
-                <p>Loading invitations...</p>
+                <p className = "invitations-status"> Loading invitations... </p>
             ) : invitations.length === 0 ? (
-                <p>No pending invitations.</p>
-            ) : (
-                invitations.map((inv) => (
-                <div key = {inv.id} className = "invitation-card">
-                        <span>
-                            <strong> {inv.senderUsername} </strong> invited you to{' '}
-                            <strong> {inv.groupName} </strong>
-                        </span>
-                    <div>
-                        <button onClick = {() => respond(inv.id, true)}> Accept </button>
-                        <button onClick = {() => respond(inv.id, false)}> Decline </button>
-                    </div>
+                <p className = "invitation-status"> No pending invitations </p>
+            ) : ( 
+                <div className = "invitations-list">
+                    {invitations.map((inv) => (
+                        <div key = {inv.id} className = "invitation-card">
+                            <div className = "invitation-info">
+                                <span className = "invitation-logo">
+                                    {inv.groupName.slice(0, 2).toUpperCase()}
+                                </span>
+                                <div>
+                                    <div className = "invitation-group"> {inv.groupName} </div>
+                                    <div className = "invitation-form">
+                                        Invited by <span className = "invitation-sender"> {inv.senderUsername} </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className = "invitation-actions">
+                                <button className = "inv-accept" onClick = {() => respond(inv.id, true)}> Accept </button>
+                                <button className = "inv-decline" onClick = {() => respond(inv.id, false)}> Decline </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                ))
             )}
         </div>
     );

@@ -1,11 +1,157 @@
+/* Invitations Page */
 .invitations-page
 {
-    padding: 1rem;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 26px 40px 40px;
+    animation: riseIn 0.5s ease;
+}
+
+.inivtations-header
+{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.invitations-title
+{
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0;
+    color: var(--text);
+}
+
+.invitations-count
+{
+    padding: 5px 11px;
+    background: var(--grad-primary);
+    color: #fff;
+    font: 800 12px var(--font-display);
+    box-shadow: 0 4px 14px rgba(217, 70, 239, 0.35);
+}
+
+.invitations-message
+{
+    font: 500 13px var(--font-body);
+    color: var(--cyan-light);
+    margin: 0 0 16px;
+}
+
+.invitations-status
+{
+    font: 500 14px var(--font-body);
+    color: var(--text-muted);
+}
+
+/* Invitations cards */
+.invitations-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .invitation-card
 {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 2px solid var(--border-strong);
+    padding: 16px 18px;
+    animation: riseIn 0.4s ease;
+    transition: border-color 0.2s ease;
+}
+
+.invitation-card:hover
+{
+    border-color: rgba(34, 211, 238, 0.3);
+}
+
+.invitation-info
+{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.invitation-logo
+{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--grad-primary);
+    color: #fff;
+    font: 900 15px var(--font-display);
+    flex-shrink: 0;
+}
+
+.invitation-group
+{
+    font: 800 15px var(--font-display);
+    letter-spacing: -0.2px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.invitation-form
+{
+    font: 600 15px var(--font-display);
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+}
+
+.invitation-sender
+{
+    color: var(--text-dim);
+}
+
+/* Actions button */
+.invitation-actions
+{
+    display: flex;
+    gap: 9px;
+}
+
+.inv-accept
+{
+    padding: 9px 15px;
+    background: var(--grad-primary);
+    border: none;
+    color: #fff;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 5px 16px rgba(217, 70, 239, 0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.inv-accept:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 7px 22px rgba(217, 70, 239, 0.5);
+}
+
+.inv-decline
+{
+    padding: 9px 15px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    color: var(--text-dim);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.inv-decline:hover
+{
+    border-color: #ff8a72;
+    color: #ff8a72;
 }
