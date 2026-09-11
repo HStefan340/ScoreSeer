@@ -54,26 +54,41 @@ function LeaguesPage()
         }
     }
 
-    if(loading) return <p>Loading leagues...</p>;
+    if(loading) return <p className = "leagues-status"> Loading leagues... </p>;
 
     return (
         <div className = "leagues-page">
-            <h1>Leagues</h1>
+            <div className = "leagues-kicker"> STAY UP TO DATE </div>
+            <h1 className = "leagues-title"> LEAGUES </h1>
 
-            {allLeagues.map((league) =>
-            {
-                const isFollowed = followedIds.includes(league.id);
-                return(
-                    <div key = {league.id} className = "league-card">
-                        <span> {league.name} ({league.country}) </span>
-                        {isFollowed ? (
-                            <button onClick = {() => unfollow(league.id)}> Unfollow </button>
-                        ) : (
-                            <button onClick = {() => follow(league.id)}> Follow </button>
-                        )}
-                    </div>
-                );
-            })}
+            <div className = "leagues-list">
+                {allLeagues.map((league) => 
+                {
+                    const isFollowed = followedIds.includes(league.id);
+
+                    return(
+                        <div key = {league.id} className = "league-card">
+                            <div className = "league-info">
+                                <span className = "league-logo"> {league.name.slice(0, 2).toUpperCase()} </span>
+                                <div>
+                                    <div className = "league-name"> {league.name} </div>
+                                    <div className = "league-country"> {league.country} </div>
+                                </div>
+                            </div>
+
+                            {isFollowed ? (
+                                <button className = "league-following" onClick = {() => unfollow(league.id)} >
+                                    Unfollow
+                                </button>
+                            ) : (
+                                <button className = "league-follow" onClick = {() => follow(league.id)}>
+                                    Follow
+                                </button>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }

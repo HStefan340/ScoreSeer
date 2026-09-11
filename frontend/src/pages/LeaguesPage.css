@@ -1,11 +1,136 @@
+/* Leagues page */ 
 .leagues-page
 {
-    padding: 1rem;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 26px 40px 40px;
+    animation: riseIn 0.5s ease;
+}
+
+.leagues-kicker
+{
+    font: 800 11px var(--font-display);
+    letter-spacing: 0.14em;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+}
+
+.leagues-title
+{
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0 0 22px;
+    color: var(--text);
+}
+
+.leagues-status
+{
+    padding: 26px 40px;
+    font: 500 14px var(--font-body);
+    color: var(--text-muted);
+}
+
+.leagues-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .league-card
 {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 2px solid var(--border-strong);
+    padding: 16px 18px;
+    animation: riseIn 0.4s ease;
+    transition: border-color 0.2s ease;
+}
+
+.leagues-card:hover
+{
+    border-color: rgba(34, 211, 238, 0.3);
+}
+
+.league-info
+{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.league-logo
+{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border-strong);
+    color: var(--text);
+    font: 900 14px var(--font-display);
+    flex-shrink: 0;
+}
+
+.league-name
+{
+    font: 800 15px var(--font-display);
+    letter-spacing: -0.2px;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+
+.league-country
+{
+    font: 600 10.5px var(--font-display);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Follow button */
+.league-follow
+{
+    padding: 9px 18px;
+    background: var(--grad-primary);
+    border: none;
+    color: #fff;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 5px 16px rgba(217, 70, 239, 0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.league-follow:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 7px 22px rgba(217, 70, 239, 0.5);
+}
+
+/* Following button (active state) */
+.league-following
+{
+    padding: 9px 18px;
+    background: rgba(34, 211, 238, 0.1);
+    border: 2px solid rgba(34, 211, 238, 0.5);
+    color: var(--cyan-light);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.league-following:hover
+{
+    background: rgba(34, 211, 238, 0.16);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
 }
