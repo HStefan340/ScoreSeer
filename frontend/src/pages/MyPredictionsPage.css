@@ -1,16 +1,158 @@
-.my-predictions
+/* My Predictions */
+.mypred-page
 {
-    padding: 1rem;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 26px 40px 40px;
+    animation: riseIn 0.5s ease;
 }
 
-.prediction-card
+.mypred-title
 {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0.5rem 0;
+    font: 800 40px var(--font-display);
+    letter-spacing: -1.2px;
+    margin: 0 0 22px;
+    color: var(--text);
 }
 
-.error-text
+.mypred-status
 {
-    color: red;
+    font: 500 14px var(--font-body);
+    color: var(--text-muted);
+}
+
+.mypred-error
+{
+    color: #ff8a72;
+}
+
+.mypred-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mypred-card
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 2px solid var(--border-strong);
+    padding: 16px 18px;
+    animation: riseIn 0.4s ease;
+    transition: border-color 0.2s ease;
+}
+
+.mypred-card:hover
+{
+    border-color: rgba(34, 211, 238, 0.3);
+}
+
+/* Teams (reuses .team-logo from matches) */
+.team-logo
+{
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 800 9px var(--font-display);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.mypred-teams
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: 700 15px var(--font-display);
+    color: var(--text);
+    min-width: 0;
+}
+
+.mypred-team-name
+{
+    color: var(--text);
+}
+
+.mypred-vs
+{
+    color: var(--text-fade);
+    font-weight: 500;
+    font-size: 12px;
+    padding: 0 2px;
+}
+
+/* Right side: prediction, result, points */
+.mypred-right
+{
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.mypred-block
+{
+    text-align: center;
+}
+
+.mypred-block-label
+{
+    font: 800 8px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 5px;
+}
+
+.mypred-block-score
+{
+    font: 800 17px var(--font-display);
+    color: var(--text);
+}
+
+.mypred-pick-score
+{
+    color: var(--cyan-light);
+}
+
+/* Points badge */
+.mypreds-pts
+{
+    padding: 7px 12px;
+    font: 900 12px var(--font-display);
+    letter-spacing: 0.03em;
+}
+
+.pts-3
+{
+    background: linear-gradient(135deg, var(--cyan), var(--accent-magenta));
+    color: #fff;
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.3);
+}
+
+.pts-1
+{
+    background: rgba(236, 48, 19, 0.16);
+    border: 1px solid rgba(236, 48, 19, 0.5);
+    color: #ff8a72;
+}
+
+.pts-0
+{
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+}
+
+.mypred-pending
+{
+    font: 700 10px var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    padding: 7px 12px;
+    border: 2px solid var(--border);
 }

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { apiGet } from '../api/client';
 import { useAuth } from '../api/AuthContext';
 import type { MyPredictionEntry } from '../types';
+import { teamColor, teamInitials } from '../utils/teams';
 import './MyPredictionsPage.css';
 
 function MyPredictionsPage()
@@ -31,36 +32,67 @@ function MyPredictionsPage()
     }, [loadPredictions]);
 
     return (
-        <div className = "my-predictions">
-            <h1>My Predictions</h1>
+        <div className = "mypred-page">
+            <h1 className = "mypred-title"> MY PREDICTIONS </h1>
 
             {loading ? (
-                <p>Loading prediction...</p>
+                <p className = "mypred-status"> Loading predictions... </p>
             ) : error ? (
-                <p className = "error-text"> {error} </p>
-            ): predictions.length === 0 ? (
-                <p>You haven't made any predictions yet.</p>
+                <p className = "mypred-status mypred-error"> {error} </p>
+            ) : predictions.length === 0 ? (
+                <p className = "mypred-status"> You haven't made any predictions yet. </p>
             ) : (
-                predictions.map((p) => (
-                    <div key = {p.id} className = "prediction-card">
-                        <strong>{p.homeTeam} vs {p.awayTeam}</strong>
-                        <div>Your prediction: {p.predictedHomeScore} - {p.predictedAwayScore}</div>
+                <div className = "mypred-list">
+                    {predictions.map((p) => 
+                    {
+                        const finished = p.matchStatus === 'finished';
+                        const pts = p.pointsAwarded;
 
-                        {p.matchStatus === 'finished' ? (
-                            <div>
-                                Final result: {p.actualHomeScore} - {p.actualAwayScore}
-                                {' - '}
-                                {p.pointsAwarded !== null ? (
-                                    <strong>{p.pointsAwarded} point(s)</strong>
-                                ) : (
-                                    <span>Not scored yet,</span>
-                                )}
+                        return(
+                            <div key = {p.id} className = "mypred-card">
+                                {/* Teams */}
+                                <div className = "mypred-teams">
+                                    <span className = "team-logo" style = {{ background: teamColor(p.homeTeam) }}>
+                                        {teamInitials(p.homeTeam)}
+                                    </span>
+                                    <span className = "mypred-team-name"> {p.homeTeam} </span>
+                                    <span className = "mypred-vs"> vs </span>
+                                    <span className = "team-logo" style = {{ background: teamColor(p.awayTeam) }}>
+                                        {teamInitials(p.awayTeam)}
+                                    </span>
+                                    <span className = "mypred-team-name"> {p.awayTeam} </span>
+                                </div>
+
+                                {/* Prediction + result */}
+                                <div className = "mypred-right">
+                                    <div className = "mypred-block">
+                                        <div className = "mypred-block-label"> YOUR PICK </div>
+                                        <div className = "mypred-block-score mypred-pick-score">
+                                            {p.predictedHomeScore} : {p.predictedAwayScore}
+                                        </div>
+                                    </div>
+
+                                    {finished ? (
+                                        <>
+                                            <div className = "mypred-block">
+                                                <div className = "mypred-block-label"> FINAL </div>
+                                                <div className = "mypred-block-score">
+                                                    {p.actualHomeScore} : {p.actualAwayScore}
+                                                </div>
+                                            </div>
+
+                                            <span className = {`mypred-pts ${pts === 3 ? 'pts-3' : pts === 1 ? 'pts-1' : 'pts-0'}`}>
+                                                + {pts ?? 0} PTS
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span className = "mypred-pending"> Not played yet. </span>
+                                    )}
+                                </div>
                             </div>
-                        ) : (
-                            <div>Match not played yet</div>
-                        )}
-                    </div>
-                ))
+                        );
+                    })}
+                </div>
             )}
         </div>
     );
