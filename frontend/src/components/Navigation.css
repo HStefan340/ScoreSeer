@@ -45,6 +45,8 @@
 {
     display: flex;
     gap: 16px;
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-link
@@ -120,4 +122,135 @@
 {
     border-color: var(--cyan);
     background: rgba(34, 211, 238, 0.08);
+}
+
+/* Navigation button - hidden on desktop */
+.nav-button
+{
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.nav-button span
+{
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    transition: 0.2s ease;
+}
+
+/* On desktop, nav-collapse is just a flex row holding links + right side */
+.nav-collapse
+{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 30px;
+}
+
+/* public nav - login/register */
+.nav-public-links
+{
+    display: flex;
+    gap: 16px;
+}
+
+/* MOBILE */
+@media (max-width: 800px)
+{
+    .nav
+    {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 12px 18px;
+        gap: 12px;
+    }
+
+    .nav-button
+    {
+        display: flex;
+        order: 1;
+        flex-shrink: 0;
+    }
+
+    .nav-logo
+    {
+        order: 2;
+        flex-shrink: 0;
+        margin-right: auto;
+    }
+
+    /* Hide the menu by default on mobile */
+    .nav-collapse
+    {
+        order: 3;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        margin-left: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 0;
+    }
+
+    /* Open state */
+    .nav-open
+    {
+        max-height: 400px;
+        padding: 16px 0 8px;
+    }
+
+    .nav-links
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        width: 100%;
+    }
+
+    /* Underline animation deosn't fit vertical menu */
+    .nav-link::after
+    {
+        display: none;
+    }
+
+    .nav-link:active
+    {
+        color: var(--cyan-light);
+    }
+
+    .nav-right
+    {
+        flex-direction: row;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    /* Public nav stays simple on mobile */
+    .nav-public
+    {
+        flex-wrap: nowrap;
+        height: 52px;
+        padding: 0 18px;
+    }
+
+    .nav-public .nav-logo
+    {
+        order: 0;
+        margin-right: auto;
+    }
+
+    .nav-public-links
+    {
+        order: 0;
+        flex-direction: row;
+        gap: 14px;
+    }
 }

@@ -13,20 +13,26 @@ function HomePage()
             <div className = "home-scoring">
                 <div className = "score-cell">
                     <div className = "score-num score-num-cyan"> 3 </div>
-                    <div className = "score-label"> Points · Exact Score </div>
-                    <div className = "score-desc"> You predicted the exact score — e.g. you called 2-1 and it ended 2-1. </div>
+                    <div className = "score-text">
+                        <div className = "score-label"> Points · Exact Score </div>
+                        <div className = "score-desc"> You predicted the exact score — e.g. you called 2-1 and it ended 2-1. </div>
+                    </div>
                 </div>
 
                 <div className = "score-cell">
                     <div className = "score-num score-num-red"> 1 </div>
-                    <div className = "score-label"> Point · Correct Outcome </div>
-                    <div className = "score-desc"> You predicted the correct outcome, but the score was wrong — you said 2-1, it ended 3-0 (home wins). </div>
+                    <div className = "score-text">
+                        <div className = "score-label"> Point · Correct Outcome </div>
+                        <div className = "score-desc"> You predicted the correct outcome, but the score was wrong — you said 2-1, it ended 3-0 (home wins). </div>
+                    </div>
                 </div>
 
                 <div className = "score-cell">
                     <div className = "score-num score-num-gray"> 0 </div>
-                    <div className = "score-label"> Points · Wrong Outcome </div>
-                    <div className = "score-desc"> You predicted the wrong outcome — you said 2-1, it ended 0-3 (away wins). </div>
+                    <div className = "score-text">
+                        <div className = "score-label"> Points · Wrong Outcome </div>
+                        <div className = "score-desc"> You predicted the wrong outcome — you said 2-1, it ended 0-3 (away wins). </div>
+                    </div>
                 </div>
             </div>
 

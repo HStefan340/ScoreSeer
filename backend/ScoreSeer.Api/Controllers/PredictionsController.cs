@@ -87,6 +87,8 @@ public class PredictionsController : ControllerBase
                     .ThenInclude(m => m.HomeTeam)
                 .Include(p => p.Match)
                     .ThenInclude(m => m.AwayTeam)
+                .Include(p => p.Match)
+                    .ThenInclude(m => m.League)
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => new
                 {
@@ -94,6 +96,7 @@ public class PredictionsController : ControllerBase
                     MatchId = p.MatchId,
                     HomeTeam = p.Match.HomeTeam.Name,
                     AwayTeam = p.Match.AwayTeam.Name,
+                    League = p.Match.League.Name,
                     p.PredictedHomeScore,
                     p.PredictedAwayScore,
                     ActualHomeScore = p.Match.HomeScore,

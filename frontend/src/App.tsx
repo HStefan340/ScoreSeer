@@ -11,6 +11,7 @@ import MyPredictionsPage from "./pages/MyPredictionsPage";
 import LeaguesPage from "./pages/LeaguesPage";
 import './App.css';
 import './components/Navigation.css'
+import { useState } from "react";
 
 
 function App() 
@@ -61,6 +62,7 @@ function App()
 function Navigation()
 {
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return(
     <nav className = "nav">
@@ -69,18 +71,29 @@ function Navigation()
         <span className = "nav-logo-text"> SCORESEER </span>
       </Link>
 
-      <div className = "nav-links">
-        <NavLink to = "/" end className = "nav-link"> Home </NavLink>
-        <NavLink to = "/matches" className = "nav-link"> Matches </NavLink>
-        <NavLink to = "/groups" className = "nav-link"> Groups </NavLink>
-        <NavLink to = "/invitations" className = "nav-link"> Invitations </NavLink>
-        <NavLink to = "/my-predictions" className = "nav-link"> My Predictions </NavLink>
-        <NavLink to = "/leagues" className = "nav-link"> Leagues </NavLink>
-      </div>
+      {/* Navigation button (shows only non mobile) */}
+      <button
+        className = "nav-button"
+        onClick = {() => setMenuOpen(!menuOpen)}
+        aria-label = "Menu"
+        >
+          <span></span><span></span><span></span>
+      </button>
 
-      <div className = "nav-right">
-        <span className = "nav-greeting"> Hi, {user?.username} </span>
-        <button className = "nav-logout" onClick = {logout}> Log Out </button>
+      {/* Links + right side - toggled open on mobile */}
+      <div className = {`nav-collapse ${menuOpen ? 'nav-open' : '' }`}>
+        <div className = "nav-links">
+          <NavLink to = "/" end className = "nav-link" onClick = {() => setMenuOpen(false)}> Home </NavLink>
+          <NavLink to = "/matches" className = "nav-link" onClick = {() => setMenuOpen(false)}> Matches </NavLink>
+          <NavLink to = "/groups" className = "nav-link" onClick = {() => setMenuOpen(false)}> Groups </NavLink>
+          <NavLink to = "/invitations" className = "nav-link" onClick = {() => setMenuOpen(false)}> Invitations </NavLink>
+          <NavLink to = "/my-predictions" className = "nav-link" onClick = {() => setMenuOpen(false)}> My Predictions </NavLink>
+          <NavLink to = "/leagues" className = "nav-link" onClick = {() => setMenuOpen(false)}> Leagues </NavLink>
+        </div>
+        <div className = "nav-right">
+          <span className = "nav-greeting"> Hi, {user?.username} </span>
+          <button className = "nav-logout" onClick = {logout}> Log Out </button>
+        </div>
       </div>
     </nav>
   );
@@ -89,13 +102,13 @@ function Navigation()
 function PublicNav()
 {
   return (
-    <nav className = "nav">
+    <nav className = "nav nav-public">
       <Link to = "/" className = "nav-logo"> 
         <span className = "nav-logo-mark"></span>
         <span className = "nav-logo-text"> SCORESEER</span>
       </Link>
 
-      <div className = "nav-links">
+      <div className = "nav-public-links">
         <NavLink to = "/login" className = "nav-link"> Log In </NavLink>
         <NavLink to = "/register" className = "nav-link"> Sign Up </NavLink>
       </div>

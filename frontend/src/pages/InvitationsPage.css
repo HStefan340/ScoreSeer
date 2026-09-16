@@ -7,7 +7,7 @@
     animation: riseIn 0.5s ease;
 }
 
-.inivtations-header
+.invitations-header
 {
     display: flex;
     align-items: center;
@@ -154,4 +154,37 @@
 {
     border-color: #ff8a72;
     color: #ff8a72;
+}
+
+/* Mobile */
+@media (max-width: 800px)
+{
+    .invitations-page
+    {
+        padding: 18px 14px 30px;
+    }
+
+    .invitations-title
+    {
+        font-size: 26px;
+    }
+
+    .invitation-card
+    {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .invitation-actions
+    {
+        width: 100%;
+    }
+
+    .inv-accept,
+    .inv-decline
+    {
+        flex: 1;
+        text-align: center;
+    }
 }

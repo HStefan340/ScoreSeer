@@ -235,3 +235,62 @@
     background: rgba(34, 211, 238, 0.1);
     box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
 }
+
+/* Mobile */
+@media (max-width: 800px)
+{
+    .groups-page
+    {
+        padding: 18px 14px 30px;
+    }
+
+    .groups-title
+    {
+        font-size: 26px;
+    }
+
+    /* Create row stacks: button under input */
+    .create-group
+    {
+        flex-direction: column;
+        max-width: none;
+        gap: 9px;
+        margin-bottom: 16px;
+    }
+
+    .create-group-input
+    {
+        flex: none;
+        height: 52px;
+        min-height: 52px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .create-group-btn
+    {
+        height: 42px;
+        padding: 0;
+        width: 100%;
+        font-size: 10px;
+    }
+
+    .group-name
+    {
+        font-size: 16px;
+    }
+
+    /* Card actions go full width */
+    .group-card-actions
+    {
+        width: 100%;
+    }
+
+    .group-invite-btn,
+    .group-view-btn
+    {
+        flex: 1;
+        text-align: center;
+    }
+}

@@ -134,3 +134,46 @@
     background: rgba(34, 211, 238, 0.16);
     box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
 }
+
+/* Mobile */
+@media (max-width: 800px)
+{
+    .leagues-page
+    {
+        padding: 18px 14px 30px;
+    }
+
+    .leagues-title
+    {
+        font-size: 26px;
+    }
+
+    .league-card
+    {
+        padding: 12px 13px;
+    }
+
+    .league-logo
+    {
+        width: 30px;
+        height: 30px;
+        font-size: 11px;
+    }
+
+    .league-name
+    {
+        font-size: 13px;
+    }
+
+    .league-country
+    {
+        font-size: 9px;
+    }
+
+    .league-follow,
+    .league-following
+    {
+        padding: 8px 12px;
+        font-size: 9px;
+    }
+}

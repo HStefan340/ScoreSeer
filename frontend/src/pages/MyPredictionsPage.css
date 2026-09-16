@@ -50,11 +50,125 @@
     border-color: rgba(34, 211, 238, 0.3);
 }
 
-/* Teams (reuses .team-logo from matches) */
-.team-logo
+/* Finished match */
+.mypred-card-finished
 {
-    width: 26px;
-    height: 26px;
+    border-color: rgba(236, 48, 19, 0.4);
+    background: rgba(236, 48, 19, 0.05);
+}
+
+.mypred-card-finished:hover
+{
+    border-color: rgba(236, 48, 19, 0.6);
+}
+
+/* Left block */
+.mypred-info
+{
+    min-width: 0;
+}
+
+.mypred-cap
+{
+    font: 800 8px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 9px;
+}
+
+/* Teams horizontal */
+.mypred-teams 
+{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font: 700 15px var(--font-display);
+    color: var(--text);
+}
+
+.mypred-team-name 
+{
+    color: var(--text);
+}
+
+.mypred-vs 
+{
+    color: var(--text-fade);
+    font-weight: 500;
+    font-size: 12px;
+}
+
+/* Right block: pick + badge */
+.mypred-right 
+{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.mypred-pick 
+{
+    text-align: right;
+}
+
+.mypred-pick-label 
+{
+    font: 800 8px var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-fade);
+    margin-bottom: 4px;
+}
+
+.mypred-pick-score 
+{
+    font: 800 18px var(--font-display);
+    color: var(--text);
+}
+
+.mypred-card:not(.mypred-card-finished) .mypred-pick-score
+{
+    color: var(--cyan-light);
+}
+
+/* Badges */
+.mypred-pts 
+{
+    padding: 8px 12px;
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.04em;
+}
+
+.pts-3,
+.pts-1 
+{
+    background: var(--grad-primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(217, 70, 239, 0.35);
+}
+
+.pts-0 
+{
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+}
+
+.mypred-pending 
+{
+    padding: 8px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.16);
+    color: var(--text-muted);
+    font: 800 9px var(--font-display);
+    letter-spacing: 0.05em;
+}
+
+/* Team logo */
+.team-logo 
+{
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,96 +177,47 @@
     flex-shrink: 0;
 }
 
-.mypred-teams
+/* Mobile */
+@media (max-width: 800px)
 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font: 700 15px var(--font-display);
-    color: var(--text);
-    min-width: 0;
-}
+    .mypred-page
+    {
+        padding: 18px 14px 30px;
+    }
 
-.mypred-team-name
-{
-    color: var(--text);
-}
+    .mypred-title
+    {
+        font-size: 26px;
+    }
 
-.mypred-vs
-{
-    color: var(--text-fade);
-    font-weight: 500;
-    font-size: 12px;
-    padding: 0 2px;
-}
+    /* Card stays horizontal: info left, right-block right */
+    .mypred-card 
+    {
+        align-items: flex-start;
+    }
 
-/* Right side: prediction, result, points */
-.mypred-right
-{
-    display: flex;
-    align-items: center;
-    gap: 22px;
-}
+    /* Teams wrap (logo stays with name) */
+    .mypred-teams 
+    {
+        flex-wrap: wrap;
+        gap: 6px 8px;
+        font-size: 13px;
+    }
 
-.mypred-block
-{
-    text-align: center;
-}
+    /* Hide "vs" on mobile (teams are stacked) */
+    .mypred-vs 
+    {
+        flex-basis: 100%;
+        height: 0;
+        overflow: hidden;
+        margin: 0;
+    }
 
-.mypred-block-label
-{
-    font: 800 8px var(--font-display);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-fade);
-    margin-bottom: 5px;
-}
-
-.mypred-block-score
-{
-    font: 800 17px var(--font-display);
-    color: var(--text);
-}
-
-.mypred-pick-score
-{
-    color: var(--cyan-light);
-}
-
-/* Points badge */
-.mypreds-pts
-{
-    padding: 7px 12px;
-    font: 900 12px var(--font-display);
-    letter-spacing: 0.03em;
-}
-
-.pts-3
-{
-    background: linear-gradient(135deg, var(--cyan), var(--accent-magenta));
-    color: #fff;
-    box-shadow: 0 0 16px rgba(34, 211, 238, 0.3);
-}
-
-.pts-1
-{
-    background: rgba(236, 48, 19, 0.16);
-    border: 1px solid rgba(236, 48, 19, 0.5);
-    color: #ff8a72;
-}
-
-.pts-0
-{
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text-muted);
-}
-
-.mypred-pending
-{
-    font: 700 10px var(--font-display);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--text-fade);
-    padding: 7px 12px;
-    border: 2px solid var(--border);
+    /* Right block: pick on top, badge below — aligned right */
+    .mypred-right 
+    {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+    }
 }

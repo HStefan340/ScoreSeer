@@ -179,3 +179,119 @@
 {
     color: var(--text-dim);
 }
+
+/* Mobile */
+@media (max-width: 800px)
+{
+    .home-page
+    {
+        padding: 16px 14px 30px;
+    }
+
+    /* Smaller hero on mobile */
+    .home-kicker
+    {
+        font-size: 9px;
+    }
+
+    .home-title
+    {
+        font-size: 26px;
+        letter-spacing: -1px;
+    }
+
+    .home-lead
+    {
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
+
+    /* Scoring: 3 columns -> stacked */
+    .home-scoring
+    {
+        grid-template-columns: 1fr;
+        margin-bottom: 16px;
+    }
+
+    .score-cell
+    {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 13px;
+        border-right: none;
+        border-bottom: 2px solid var(--border-strong);
+    }
+
+    .score-cell:last-child
+    {
+        border-bottom: none;
+    }
+    
+    .score-text
+    {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .score-num
+    {
+        font-size: 26px;
+        letter-spacing: -1px;
+        flex-shrink: 0;
+    }
+
+    .score-label
+    {
+        font-size: 9px;
+        margin: 0 0 4px;
+        white-space: nowrap;
+    }
+
+    .score-desc
+    {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* Guides: 2 columns -> stacked */
+    .home-guides
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-col
+    {
+        padding: 18px 4px 10px;
+    }
+
+    .guide-col-border
+    {
+        border-right: none;
+        border-bottom: 2px solid var(--border-strong);
+    }
+
+    .guide-title
+    {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    .guide-step
+    {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Leagues */
+    .home-leagues
+    {
+        padding-top: 18px;
+    }
+
+    .home-leagues-text
+    {
+        font-size: 12px;
+    }
+}

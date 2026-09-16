@@ -91,3 +91,33 @@ body
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); } 
 }
+
+/* Global overflow protection */
+html, body
+{
+  max-width: 100%;
+  overflow-x: hidden; /* no horizontal scroll */
+}
+
+/* Media (if any) never overflows */
+img, svg, video
+{
+  max-width: 100%;
+  height: auto;
+}
+
+/* Global mobile spacing */
+@media (max-width: 800px) 
+{
+  .home-page,
+  .matches-page,
+  .groups-page,
+  .group-detail,
+  .invitations-page,
+  .mypred-page,
+  .leagues-page
+  {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

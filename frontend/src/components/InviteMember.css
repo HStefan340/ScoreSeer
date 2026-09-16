@@ -61,7 +61,7 @@
     box-shadow: 0 8px 26px rgba(217, 70, 239, 0.5);
 }
 
-.inivte-message
+.invite-message
 {
     font: 500 12px var(--font-body);
     color: var(--cyan-light);
@@ -73,11 +73,15 @@
 {
     list-style: none;
     padding: 0;
-    margin: 14px 0 0;
+    margin: 16px 0 0;
     max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
 }
 
-.invite-results
+.invite-result
 {
     display: flex;
     align-items: center;
@@ -87,7 +91,7 @@
     animation: riseIn 0.3s ease;
 }
 
-.inivte-result-name
+.invite-result-name
 {
     font: 700 13px var(--font-display);
     color: var(--text);

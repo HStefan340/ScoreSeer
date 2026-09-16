@@ -64,6 +64,7 @@ export interface MyPredictionEntry
     matchId: number;
     homeTeam: string;
     awayTeam: string;
+    league: string;
     predictedHomeScore: number;
     predictedAwayScore: number;
     actualHomeScore: number | null;

@@ -254,7 +254,7 @@ public class GroupsController : ControllerBase
                 .Where(gm => gm.GroupId == id)
                 .Select(gm => new
                 {
-                    gm.UserId,
+                    Id = gm.UserId,
                     gm.User.Username,
                     // Sum of points across teh user's prediction (0 if none)
                     TotalPoints = _context.Predictions

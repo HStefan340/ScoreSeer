@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiGet } from '../api/client';
 import { useAuth } from '../api/AuthContext';
-import type { LeaderboardEntry } from '../types';
+import type { LeaderboardEntry, Group } from '../types';
 import './GroupDetailPage.css';
 
 function GroupDetailPage()
@@ -10,6 +10,7 @@ function GroupDetailPage()
     const { token, user } = useAuth();
     const { id } = useParams(); // group id from the URL
     const [leaderboard, setLeaderboard] = useState< LeaderboardEntry[] >([]);
+    const [groupName, setGroupName] = useState< string >('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState< string | null >(null);
 
@@ -28,14 +29,27 @@ function GroupDetailPage()
             });
     }, [id, token]);
 
+    const loadGroupName = useCallback(() => 
+    {
+        apiGet< Group[] >('/groups/mine', token ?? undefined)
+            .then((groups) => 
+            {
+                const g = groups.find((gr) => String(gr.id) === id);
+                if(g) setGroupName(g.name);
+            })
+            .catch(() => {});
+    }, [id, token]);
+
     useEffect(() => 
     {
         loadLeaderboard();
-    }, [loadLeaderboard]);
+        loadGroupName();
+    }, [loadLeaderboard, loadGroupName]);
 
     return(
         <div className = "group-detail">
             <Link to = "/groups" className = "back-link"> ← Back to groups </Link>
+            {groupName && <div className = "detail-kicker"> {groupName} </div>}
             <h1 className = "detail-title"> LEADERBOARD </h1>
 
             {loading ? (
@@ -49,8 +63,8 @@ function GroupDetailPage()
                     <div className = "lb-head">
                         <span> # </span>
                         <span> Player </span>
-                        <span> Points </span>
-                        <span> Predictions </span>
+                        <span><span className = "lb-full"> Points </span><span className = "lb-abbr"> PTS </span></span>
+                        <span><span className = "lb-full"> Predictions </span><span className = "lb-abbr"> PRED </span></span>
                     </div>
 
                     {leaderboard.map((entry, index) =>

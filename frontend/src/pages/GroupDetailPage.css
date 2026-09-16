@@ -32,6 +32,18 @@
     color: var(--text);
 }
 
+.detail-kicker
+{
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--grad-kicker);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 5px;
+}
+
 .detail-status
 {
     font: 500 14px var(--font-body);
@@ -128,4 +140,72 @@
 {
     font: 600 16px var(--font-body);
     color: var(--text-muted);
+}
+
+.lb-abbr
+{
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 800px)
+{
+    .group-detail
+    {
+        padding: 18px 14px 30px;
+    }
+
+    .detail-title
+    {
+        font-size: 26px;
+    }
+
+    /* Narrow columns to fit phone width */
+    .lb-head,
+    .lb-row
+    {
+        grid-template-columns: 26px 1fr 40px 44px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .lb-head
+    {
+        font-size: 8px;
+    }
+
+    .lb-full
+    {
+        display: none;
+    }
+
+    .lb-abbr
+    {
+        display: inline;
+    }
+
+    .lb-rank
+    {
+        font-size: 15px;
+    }
+
+    .lb-player
+    {
+        font-size: 12px;
+    }
+
+    .lb-points
+    {
+        font-size: 14px;
+    }
+
+    .lb-preds
+    {
+        font-size: 11px;
+    }
+
+    .lb-you
+    {
+        font-size: 7px;
+    }
 }

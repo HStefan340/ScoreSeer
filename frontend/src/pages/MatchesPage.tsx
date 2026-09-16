@@ -145,7 +145,7 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
                     <span className = "team-name"> {match.homeTeam} </span>
 
                     {match.status === 'finished' ? (
-                        <span className = "match-score"> {match.homeScore}&nbsp;-&nbsp;{match.awayScore} </span>
+                        <span className = "match-score match-score-inline"> {match.homeScore}&nbsp;-&nbsp;{match.awayScore} </span>
                     ) : (
                         <span className = "match-vs"> vs </span>
                     )}
@@ -159,48 +159,54 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
             </div>
 
             {/* Right: Your pick area *varies by state) */}
-            <div className = " match-pick">
+          
                 {match.status === 'finished' ? (
-                    // Finished - no interavtive pick  here (history is in My Predictions)
-                    <span className = "match-final-badge"> FULL TIME </span>
+                    <div className = "match-result">
+                        <span className = "match-score match-score-side"> {match.homeScore} - {match.awayScore} </span>
+                        <span className = "match-final-badge"> FULL TIME </span>
+                    </div>
                 ) : existing && !editing ? (
                     // Has a prediction - show it + edit
                     <>
-                        <div className = "pick-label-wrap">
-                            <div className = "pick-label"> YOUR PICK </div>
-                            <div className = "pick-values">
-                                <span className = "pick-box pick-box-set"> {existing.predictedHomeScore} </span>
-                                <span className = "pick-colon"> : </span>
-                                <span className = "pick-box pick-box-set"> {existing.predictedAwayScore} </span>
+                        <div className = "match-pick">
+                            <div className = "pick-label-wrap">
+                                <div className = "pick-label"> YOUR PICK </div>
+                                <div className = "pick-values">
+                                    <span className = "pick-box pick-box-set"> {existing.predictedHomeScore} </span>
+                                    <span className = "pick-colon"> : </span>
+                                    <span className = "pick-box pick-box-set"> {existing.predictedAwayScore} </span>
+                                </div>
                             </div>
                         </div>
-
-                        <button className = "pick-btn-edit" onClick = {() => setEditing(true)}> EDIT </button>
+                        
+                        <button className = "pick-btn-edit" onClick = {() => setEditing(true)}> EDIT PREDICTION </button>
                     </>
                 ) : (
                     // Ready to predict (new or editing)
                     <>
-                        <div className = "pick-label-wrap">
-                            <div className = "pick-label"> YOUR PICK </div>
-                            <div className = "pick-values">
-                                <input
-                                    type = "number"
-                                    min = "0"
-                                    className = {`pick-input ${home === '' ? 'pick-input-glow' : '' }`}
-                                    placeholder = "-"
-                                    value = {home}
-                                    onChange = {(e) => setHome(e.target.value)}
-                                />
+                        <div className = "match-pick">
+                            <div className = "pick-label-wrap">
+                                <div className = "pick-label"> YOUR PICK </div>
+                                <div className = "pick-values">
+                                    <input
+                                        type = "number"
+                                        min = "0"
+                                        className = {`pick-input ${home === '' ? 'pick-input-glow' : '' }`}
+                                        placeholder = "-"
+                                        value = {home}
+                                        onChange = {(e) => setHome(e.target.value)}
+                                    />
 
                                 <span className = "pick-colon">:</span>
-                                <input
-                                    type = "number"
-                                    min = "0"
-                                    className = "pick-input"
-                                    placeholder = "-"
-                                    value = {away}
-                                    onChange = {(e) => setAway(e.target.value)}
-                                />
+                                    <input
+                                        type = "number"
+                                        min = "0"
+                                        className = "pick-input"
+                                        placeholder = "-"
+                                        value = {away}
+                                        onChange = {(e) => setAway(e.target.value)}
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -210,7 +216,6 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
                         {message && <span className = "pick-message"> {message} </span>}
                     </>
                 )}
-            </div>
         </div>
     );
 }
