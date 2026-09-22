@@ -15,7 +15,5 @@ public partial class League
 
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();
 
-    public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
-
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

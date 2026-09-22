@@ -77,7 +77,7 @@ inserted = 0
 updated = 0
 
 for lg in found:
-    external_id = str(lg["apiId"])
+    external_id = str(lg["id"])
     name = lg["name"]
     country = lg["countryName"]
 

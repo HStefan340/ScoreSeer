@@ -13,11 +13,7 @@ public partial class Team
 
     public string? LogoUrl { get; set; }
 
-    public int LeagueId { get; set; }
-
     public string? ExternalId { get; set; }
-
-    public virtual League League { get; set; } = null!;
 
     public virtual ICollection<Match> MatchAwayTeams { get; set; } = new List<Match>();
 

@@ -219,7 +219,6 @@ public partial class ScoreSeerDbContext : DbContext
             entity.Property(e => e.ExternalId)
                 .HasMaxLength(50)
                 .HasColumnName("external_id");
-            entity.Property(e => e.LeagueId).HasColumnName("league_id");
             entity.Property(e => e.LogoUrl)
                 .HasMaxLength(255)
                 .HasColumnName("logo_url");
@@ -229,11 +228,6 @@ public partial class ScoreSeerDbContext : DbContext
             entity.Property(e => e.ShortName)
                 .HasMaxLength(10)
                 .HasColumnName("short_name");
-
-            entity.HasOne(d => d.League).WithMany(p => p.Teams)
-                .HasForeignKey(d => d.LeagueId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("teams_league_id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
