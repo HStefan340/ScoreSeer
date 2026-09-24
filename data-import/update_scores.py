@@ -1,5 +1,6 @@
 from db import get_connection
 from goal_client import goal
+from datetime import date, timedelta
 
 conn = get_connection()
 cur = conn.cursor()
@@ -27,25 +28,33 @@ def outcome(home, away):
 
     return "draw"
 
-# Read matches that have started but are not finished yet
-# These are the only ones whos status can still change (scheduled -> live -> finnished)
-cur.execute(
-    """
-    SELECT id, external_id
-    FROM matches
-    WHERE kickoff_at <= NOW() AND status <> 'finished'
-    """
-)
-matches_to_check = cur.fetchall()
-print(f"Matches to check: {len(matches_to_check)}")
+# Fetch fixtures for today and yesterday (covers matches that ended overnight)
+today = date.today()
+yesterday = today - timedelta(days=1)
+
+fixtures = []
+for day in [yesterday, today]:
+    result = goal.fixtures.by_date(day.isoformat())
+    fixtures.extend(result["data"])
+
+print(f"Fixtures fetched (today + yesterday): {len(fixtures)}")
+
+cur.execute("SELECT external_id, id FROM matches")
+our_matches = {}
+for external_id, local_id in cur.fetchall():
+    our_matches[external_id] = local_id
 
 updated = 0
 scored = 0
 
-for match_local_id, external_id in matches_to_check:
-    # Fetch the current state of this fixture from GOAL
-    fx = goal.fixtures.get(external_id)["data"]
+for fx in fixtures:
+    external_id = str(fx["id"])
 
+    # Skip fixtures that are not in our database
+    if external_id not in our_matches:
+        continue
+
+    match_local_id = our_matches[external_id]
     status = fx["matchStatus"].lower()
     home_score = fx["homeTeamScore"]
     away_score = fx["awayTeamScore"]
