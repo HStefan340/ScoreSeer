@@ -72,11 +72,12 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
     const [editing, setEditing] = useState(false);
 
     const isUpcoming = match.status === 'scheduled';
+    const isLive = match.status === 'live' || match.status === 'half_time';
 
     // On load, check if the user already predicted this match
     useEffect(() => 
     {
-        if(!isUpcoming)
+        if(!isUpcoming && !isLive)
             return;
 
         apiGet< Prediction >(`/predictions/match/${match.id}`, token ??  undefined)
@@ -90,7 +91,7 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
             {
                 // 404 = no prediction yet, that's fine
             });
-    }, [match.id, token, isUpcoming]);
+    }, [match.id, token, isUpcoming, isLive]);
 
     async function submitPrediction()
     {
@@ -134,7 +135,9 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
             {/* Left: league label + teams */}
             <div className = "match-info">
                 <div className = "match-league">
-                    {match.league} · {match.status === 'finished' ? 'FULL TIME' : 'SCHEDULED'}
+                    {match.league} · {match.status === 'finished' ? 'FULL TIME' 
+                    : isLive ? (match.status === 'half_time' ? 'HALF TIME' : 'LIVE')
+                    : 'SCHEDULED'}
                 </div>
 
                 <div className = "match-teams">
@@ -160,7 +163,20 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
 
             {/* Right: Your pick area *varies by state) */}
           
-                {match.status === 'finished' ? (
+            {isLive ? (
+                    //Match in progress - LIVE badge + current score + your prediction
+                    <div className = "match-live">
+                        <div className = "live-badge">
+                            <span className = "live-dot"></span>
+                            {match.status === 'half_time' ? 'HALF TIME': 'LIVE'}
+                        </div>
+                        <div className = "live-score"> {match.homeScore} - {match.awayScore} </div>
+                        {existing && (
+                            <div className = "live-pick"> Your pick: {existing.predictedHomeScore} - {existing.predictedAwayScore} </div>
+                        )}
+                    </div>
+
+                ) : match.status === 'finished' ? (
                     <div className = "match-result">
                         <span className = "match-score match-score-side"> {match.homeScore} - {match.awayScore} </span>
                         <span className = "match-final-badge"> FULL TIME </span>
@@ -215,7 +231,7 @@ function MatchCard( { match, token}: { match: Match; token: string | null })
                         </button>
                         {message && <span className = "pick-message"> {message} </span>}
                     </>
-                )}
+            )}
         </div>
     );
 }
