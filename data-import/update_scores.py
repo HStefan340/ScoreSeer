@@ -28,16 +28,22 @@ def outcome(home, away):
 
     return "draw"
 
-# Fetch fixtures for today and yesterday (covers matches that ended overnight)
+# Fetch fixtures for the last several days)
 today = date.today()
-yesterday = today - timedelta(days=1)
-
 fixtures = []
-for day in [yesterday, today]:
-    result = goal.fixtures.by_date(day.isoformat())
-    fixtures.extend(result["data"])
+days_back = 5
 
-print(f"Fixtures fetched (today + yesterday): {len(fixtures)}")
+for day_offset in range(days_back):
+    day = today - timedelta(days=day_offset)
+    day_str = day.isoformat()
+    day_fixtures = goal.collect(
+        lambda day_str=day_str, **p: goal.fixtures.by_date(day_str, **p),
+        page_size = 100,
+        max_items = 2000,
+    )
+    fixtures.extend(day_fixtures)
+
+print(f"Fixtures fetched (last {days_back} days): {len(fixtures)}")
 
 cur.execute("SELECT external_id, id FROM matches")
 our_matches = {}
