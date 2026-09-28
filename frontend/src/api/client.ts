@@ -1,5 +1,5 @@
-// Base URL of the backend API
-const API_BASE = 'http://localhost:5037/api';
+// Backend API base URL, read from .env.development or .env.production
+const API_BASE = import.meta.env.VITE_API_URL;
 
 // Generic helper for GET requests
 export async function apiGet<T>(path: string, token?: string): Promise<T>
