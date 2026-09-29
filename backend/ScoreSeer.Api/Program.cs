@@ -77,6 +77,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Lightweight endpoint for uptime checks; does not touch the database
+app.MapGet("/health", () => Results.Ok("OK"));
+
 app.Run();
 
 

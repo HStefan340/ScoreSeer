@@ -2,7 +2,8 @@ name: Update scores
 
 on:
   schedule: 
-    - cron: "*/5 * * * *" # every 5 minutes (UTC)
+    - cron: "*/10 0-5,10-23 * * *" # every 10 min when matches are played (UTC)
+    - cron: "0 6-9 * * *"            # hourly in the quiet morning window (UTC)
   workflow_dispatch:
 
 # Never run 2 updates at the same time
@@ -36,4 +37,4 @@ jobs:
           GOALAPI_KEY: ${{ secrets.GOALAPI_KEY }}
         
       - name: Keep backend awake
-        run: curl -s -o /dev/null --max-time 90 -w "%{http_code}\n" https://scoreseer-api-60l4.onrender.com/api/leagues || true
+        run: curl -s -o /dev/null --max-time 90 -w "%{http_code}\n" https://scoreseer-api-60l4.onrender.com/health || true
