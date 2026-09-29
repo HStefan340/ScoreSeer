@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, timedelta
 from db import get_connection
 from goal_client import goal
 
@@ -13,14 +13,15 @@ for local_id, external_id in cur.fetchall():
 
 print(f"Leagues loaded: {len(league_map)}")
 
-# Import matches in a date wondow (adjust as needed)
-date_from = "2026-09-21"
-date_to = "2026-09-27"
+# Rolling import window: from today up to DAYS_AHEAD days ahead
+DAYS_AHEAD = 7
+date_from = date.today().isoformat()
+date_to = (date.today() + timedelta(days=DAYS_AHEAD)).isoformat()
 
 all_fixtures = goal.collect(
     lambda **p: goal.fixtures.list(**{"from": date_from, "to": date_to}, **p),
     page_size = 100,
-    max_items = 5000,
+    max_items = 20000,
 )
 
 print(f"Total fixtures worldwide {date_from} to {date_to}: {len(all_fixtures)}")
@@ -89,6 +90,7 @@ for fx in my_fixtures:
 
 conn.commit()
 print(f"\nMatches inserted: {inserted}, updated: {updated}")
+print(f"Requests remaining today: {goal.rate_limit.remaining}")
 
 cur.close()
 conn.close()

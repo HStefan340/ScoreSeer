@@ -1,0 +1,39 @@
+name: Update scores
+
+on:
+  schedule: 
+    - cron: "*/5 * * * *" # every 5 minutes (UTC)
+  workflow_dispatch:
+
+# Never run 2 updates at the same time
+concurrency:
+  group: update-scores
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: data-import
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: data-import/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update match status, scores and predictions
+        run: python update_scores.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GOALAPI_KEY: ${{ secrets.GOALAPI_KEY }}
+        
+      - name: Keep backend awake
+        run: curl -s -o /dev/null --max-time 90 -w "%{http_code}\n" https://scoreseer-api-60l4.onrender.com/api/leagues || true
