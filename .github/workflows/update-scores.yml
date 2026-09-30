@@ -1,10 +1,7 @@
 name: Update scores
 
-on:
-  schedule: 
-    - cron: "*/10 0-5,10-23 * * *" # every 10 min when matches are played (UTC)
-    - cron: "0 6-9 * * *"            # hourly in the quiet morning window (UTC)
-  workflow_dispatch:
+on:         
+  workflow_dispatch: # triggered by cron-job.org
 
 # Never run 2 updates at the same time
 concurrency:
