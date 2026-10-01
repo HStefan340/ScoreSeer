@@ -131,3 +131,14 @@
 {
     text-decoration: underline;
 }
+
+/* Notice shown after an expired session */
+.auth-notice
+{
+    margin: 0 0 18px;
+    padding: 10px 12px;
+    border: 2px solid rgba(34, 211, 238, 0.4);
+    background: rgba(34, 211, 238, 0.08);
+    color: var(--cyan-light);
+    font: 500 13px var(--font-display)
+}

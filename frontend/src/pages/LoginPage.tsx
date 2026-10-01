@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { apiPost } from "../api/client";
 import { useAuth } from "../api/AuthContext";
@@ -20,6 +20,14 @@ function LoginPage()
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    // True when the user was sent here because the session expired
+    const [sessionExpired] = useState(() => sessionStorage.getItem('sessionExpired') === '1');
+
+    // Show the notice only once
+    useEffect(() => {
+        sessionStorage.removeItem('sessionExpired');
+    }, []);
+
     async function handleSubmit(e: React.FormEvent)
     {
         e.preventDefault();
@@ -40,8 +48,12 @@ function LoginPage()
                 <div className = "auth-kicker"> WELCOME BACK </div>
                 <h1 className = "auth-title"> LOG IN </h1>
 
+                {sessionExpired && (
+                    <p className = "auth-notice"> Your session has expired. Please log in again</p>
+                )}
+
                 <form onSubmit = {handleSubmit}>
-                    <div className = "auth-filed">
+                    <div className = "auth-field">
                         <div className = "auth-label"> Email </div>
                         <input
                             type = "email"

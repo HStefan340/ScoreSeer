@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { User } from "../types";
+import { setUnauthorizedHandler } from "./client";
 
 // The shape od what auth context porvides
 interface AuthContextType{
@@ -11,12 +12,35 @@ interface AuthContextType{
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Reads the expiry time (exp, in seconds) fron the JWT payload
+function isTokenExpired(token: string): boolean
+{
+    try
+    {
+        const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const data = JSON.parse(atob(payload));
+        return typeof data.exp === 'number' && data.exp * 1000 < Date.now();
+    }
+    catch
+    {
+        return true; // unreadable token is treates as expired
+    }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) 
 {
-    // Initialize from localStorage so the session survives page refreshes
-    const [token, setToken] = useState<string | null>(() =>
-        localStorage.getItem('token')
-    );
+    // Initialize from localStorage, drop the session if the stored token has expired
+    const [token, setToken] = useState<string | null>(() => {
+        const stored = localStorage.getItem('token');
+        if(stored && isTokenExpired(stored))
+        {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            return null;
+        }
+
+        return stored;
+    });
 
     const [user, setUser] = useState<User | null>(() => {
         const stored = localStorage.getItem('user');
@@ -40,6 +64,17 @@ export function AuthProvider({ children }: { children: ReactNode })
         localStorage.removeItem('token');
         localStorage.removeItem('user');
     }
+
+    // Register what happens when the API reports an expired session
+    useEffect(() => {
+        setUnauthorizedHandler(() => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            sessionStorage.setItem('sessionExpired', '1');
+            window.location.replace('/login');
+        });
+        return () => setUnauthorizedHandler(null);
+    }, []);
 
     return(
         <AuthContext.Provider value = {{ user, token, login, logout }}>
