@@ -86,6 +86,7 @@ public class AuthController : ControllerBase
         });
     }
 
+    [EnableRateLimiting("auth")]
     [HttpPost("google")]
     public async Task<IActionResult> GoogleLogin(GoogleLoginDto dto)
     {
@@ -107,19 +108,23 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid Google token.");
         }
 
+        if(!payload.EmailVerified)
+        {
+            return Unauthorized("Google email is not verified");
+        }
+
         // Try to find an existing user by their Google ID
         var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject);
 
         // If not found by Google ID, try by their email (in case they registered with email before)
         if(user == null)
         {
-            user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == payload.Email.ToLower());
+            var existing = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == payload.Email.ToLower());
 
-            if(user != null)
+            if(existing != null)
             {
-                // Existing email account: link the Google ID to it
-                user.GoogleId = payload.Subject;
-                await _context.SaveChangesAsync();
+                // Not linked automatically: email ownership is not verified at registration
+                return Conflict("An account with this email already exists. Log in with your password.");
             }
         }
 

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { apiPost, ApiError } from "../api/client";
-import "./RegisterPage.css"
+import "./RegisterPage.css";
+import GoogleButton from "../components/GoogleButton";
 
 // Same rules as the backend RegisterDTO
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -103,6 +104,9 @@ function RegisterPage()
                     <button type = "submit" className = "auth-submit"> Create Account </button>
                     {error && <p className = "auth-error"> {error} </p>}
                 </form>
+
+                <div className = "auth-divider"><span> OR </span></div>
+                <GoogleButton onError = {setError} />
 
                 <p className = "auth-switch">
                     Already have an account? <Link to = "/login"> Log In </Link>

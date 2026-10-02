@@ -142,3 +142,31 @@
     color: var(--cyan-light);
     font: 500 13px var(--font-display)
 }
+
+/* "OR" divider between the form and the google button */
+.auth-divider
+{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: var(--text-fade);
+    font: 800 10px var(--font-display);
+    letter-spacing: 0.14em;
+}
+
+.auth-divider::before,
+.auth-divider::after
+{
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--border-soft);
+}
+
+/* Center the Google-rendered button */
+.auth-google
+{
+    display: flex;
+    justify-content: center;
+}

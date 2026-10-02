@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { apiPost, ApiError } from "../api/client";
 import { useAuth } from "../api/AuthContext";
 import type { User } from "../types";
-import "./LoginPage.css"
+import "./LoginPage.css";
+import GoogleButton from "../components/GoogleButton";
 
 // The API returns a token + basic user info
 interface LoginResponse
@@ -84,6 +85,9 @@ function LoginPage()
                     <button type = "submit" className = "auth-submit"> Log In </button>
                     {error && <p className = "auth-error"> {error} </p>}
                 </form>
+                
+                <div className = "auth-divider"><span> OR </span></div>
+                <GoogleButton onError = {setError} />
 
                 <p className = "auth-switch">
                     You don't have an account? <Link to = "/register"> Sign Up </Link>
