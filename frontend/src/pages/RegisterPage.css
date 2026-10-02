@@ -131,3 +131,18 @@
 {
     text-decoration: underline;
 }
+
+/* Inline validations messages under fields */
+.auth-field-error
+{
+    color: #ff8a72;
+    font: 500 12px var(--font-body);
+    margin: 6px 0 0;
+}
+
+.auth-hint
+{
+    color: var(--text-fade);
+    font: 500 11px var(--font-body);
+    margin: 6px 0 0;
+}

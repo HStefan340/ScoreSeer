@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { apiPost } from "../api/client";
+import { apiPost, ApiError } from "../api/client";
 import { useAuth } from "../api/AuthContext";
 import type { User } from "../types";
 import "./LoginPage.css"
@@ -37,8 +37,12 @@ function LoginPage()
             login(data.token, data.user);
             navigate('/');// redirect to Home page after login
         }
-        catch{
-            setError('Invalid email or password.');
+        catch(err){
+            // 429 = rate limit reached on the backend
+            if(err instanceof ApiError && err.status === 429)
+                setError('Too many attempts. Please wait a minute and try again.');
+            else
+                setError('Invalid email or password');
         }
     }
 

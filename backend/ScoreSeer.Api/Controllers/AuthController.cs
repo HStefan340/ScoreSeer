@@ -6,6 +6,7 @@ using ScoreSeer.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ScoreSeer.Api.Controllers;
 [ApiController]
@@ -23,53 +24,60 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
+    [EnableRateLimiting("auth")]
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto dto)
     {
-        //Checking email not to be already used
-        if(await _context.Users.AnyAsync(u => u.Email == dto.Email))
+        // Stored as type (without surrounding spaces), compared case-insensitively
+        var email = dto.Email.Trim();
+        var username = dto.Username.Trim();
+
+        // Email must not be used already, in any letter case
+        if(await _context.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower()))
         {
-            return BadRequest("Email is already in use.");
+            return Conflict("Email is already in use.");
         }
 
-        //Checking username not to be already used
-        if(await _context.Users.AnyAsync(u => u.Username == dto.Username))
+        // Username must not be used already, in any letter case
+        if(await _context.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower()))
         {
-            return BadRequest("Username is already in use.");
+            return Conflict("Username is already in use.");
         }
 
-        //Hashing the password
+        // Hashing the password
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-        //Creating a new user
+        // Creating a new user
         var user = new User
         {
-            Email = dto.Email,
-            Username = dto.Username,
+            Email = email,
+            Username = username,
             PasswordHash = passwordHash,
             CreatedAt = DateTime.UtcNow
         };
 
-        //Adding the user to the database
+        // Adding the user to the database
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
         return Ok(new { user.Id, user.Email, user.Username });
     }
 
+    [EnableRateLimiting("auth")]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto dto)
     {
-        //Finding the user by email
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        // Finding the user by email, regardless of letter case
+        var email = dto.Email.Trim();
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
 
-        //If the user doesn't exist OR the password is incorrect -> same generic message
+        // If the user doesn't exist OR the password is incorrect -> same generic message
         if( user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
         {
             return Unauthorized("Invalid email or password.");
         }
 
-        //Generate the JWT for the authenticated user
+        // Generate the JWT for the authenticated user
         var token = _tokenService.CreateToken(user);
 
         return Ok(new { 
@@ -105,7 +113,7 @@ public class AuthController : ControllerBase
         // If not found by Google ID, try by their email (in case they registered with email before)
         if(user == null)
         {
-            user = await _context.Users.FirstOrDefaultAsync(u => u.Email == payload.Email);
+            user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == payload.Email.ToLower());
 
             if(user != null)
             {

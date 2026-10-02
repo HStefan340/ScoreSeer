@@ -9,14 +9,31 @@ export function setUnauthorizedHandler(handler: (() => void) | null)
     onUnauthorized = handler
 }
 
+
+// Error carrying the HTTP status and the message sent by the backend
+export class ApiError extends Error
+{
+    status: number;
+
+    constructor(status: number, message: string)
+    {
+        super(message);
+        this.status = status;
+    }
+}
+
 // Shared response check for all helpers
-function checkResponse(response: Response, token?: string)
+async function checkResponse(response: Response, token?: string)
 {
     // 401 with a token means the session is no longer valid
     // Without a token (for example a failed login) it is a normal error
     if(response.status === 401 && token && onUnauthorized) onUnauthorized();
 
-    if(!response.ok) throw new Error(`Request failed: ${response.status}`);
+    if(!response.ok) 
+    {
+        const text = await response.text().catch(() => '');
+        throw new ApiError(response.status, text || `Request failed: ${response.status}`);
+    }
 }
 
 // Generic helper for GET requests
@@ -26,7 +43,7 @@ export async function apiGet<T>(path: string, token?: string): Promise<T>
     if(token) headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(`${API_BASE}${path}`, {headers});
-    checkResponse(response, token);
+    await checkResponse(response, token);
 
     return response.json();
 }
@@ -44,7 +61,7 @@ export async function apiPost<T>(path: string, body: unknown, token?: string): P
             body: JSON.stringify(body),
         }
     );
-    checkResponse(response, token);
+    await checkResponse(response, token);
 
     return response.json();
 }
@@ -62,5 +79,5 @@ export async function apiDelete(path: string, token?: string): Promise<void>
         headers,
     });
 
-    checkResponse(response, token);
+    await checkResponse(response, token);
 }

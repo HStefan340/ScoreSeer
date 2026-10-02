@@ -1,7 +1,23 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { apiPost } from "../api/client";
+import { apiPost, ApiError } from "../api/client";
 import "./RegisterPage.css"
+
+// Same rules as the backend RegisterDTO
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
+const PASSWORD_RE = /^(?=.*\p{L})(?=.*\d).{8,64}$/u;
+
+type FieldErrors = { email?: string; username?: string; password?: string };
+
+function validate(email: string, username: string, password: string): FieldErrors
+{
+    const errors: FieldErrors = {}
+    if(!EMAIL_RE.test(email.trim())) errors.email = 'Enter a valid email address.';
+    if(!USERNAME_RE.test(username)) errors.username = '3-20 characters: letters, digits or _';
+    if(!PASSWORD_RE.test(password)) errors.password = 'At least 8 characters, with one letter and one digit.';
+    return errors;
+}
 
 function RegisterPage()
 {
@@ -10,17 +26,29 @@ function RegisterPage()
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [fieldErrors, setFieldErrors] = useState< FieldErrors >({});
 
     async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>)
     {
         e.preventDefault();
         setError(null);
+
+        // Validate in the browser first; stop before calling the API if anything is wrong
+        const errors = validate(email, username, password);
+        setFieldErrors(errors);
+        if(Object.keys(errors).length > 0) return;
+
         try{
             await apiPost('/auth/register', { email, username, password });
             navigate('/login'); // after registering go to login
         }
-        catch{
-            setError('Registration failed. Email or username may be taken.');
+        catch(err){
+            if(err instanceof ApiError && err.status === 409)
+                setError(err.message);   // "Email is already in use." / "Username is already in use."
+            else if(err instanceof ApiError && err.status === 429)
+                setError('Too many attempts. Please wait a minute and try again.');
+            else
+                setError('Registration failed. Please check your details and try again.');
         }
     }
 
@@ -41,6 +69,7 @@ function RegisterPage()
                             onChange = {(e) => setEmail(e.target.value)}
                             required
                         />
+                        {fieldErrors.email && <p className = "auth-field-error"> {fieldErrors.email} </p>}
                     </div>
 
                     <div className = "auth-field">
@@ -53,6 +82,7 @@ function RegisterPage()
                             onChange = {(e) => setUsername(e.target.value)}
                             required
                         />
+                        {fieldErrors.username && <p className = "auth-field-error"> {fieldErrors.username} </p>}
                     </div>
 
                     <div className = "auth-field">
@@ -65,6 +95,9 @@ function RegisterPage()
                             onChange = {(e) => setPassword(e.target.value)}
                             required
                         />
+                        {fieldErrors.password
+                                ? <p className = "auth-field-error"> {fieldErrors.password} </p>
+                                : <p className = "auth-hint"> At least 8 characters, with one letter and one digit. </p>}
                     </div>
 
                     <button type = "submit" className = "auth-submit"> Create Account </button>
