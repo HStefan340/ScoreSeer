@@ -80,7 +80,7 @@ for (league_ext_id, day), our_matches in groups.items():
                     "UPDATE predictions SET points_awarded = %s WHERE id = %s",
                     (points, pred_id),
                 )
-                scorde += 1
+                scored += 1
 
 conn.commit()
 print(f"Matches updated: {updated}, predictions scored: {scored}")
