@@ -48,8 +48,8 @@ for (league_ext_id, day), our_matches in groups.items():
             continue
 
         status = fx["matchStatus"].lower()
-        home_score = fx["homeTeamScore"]
-        away_score = fx["awayTeamScore"]
+        home_score = int(fx["homeTeamScore"]) if fx["homeTeamScore"] is not None else None
+        away_score = int(fx["awayTeamScore"]) if fx["awayTeamScore"] is not None else None
 
         # Update the match with its current status and score
         cur.execute(

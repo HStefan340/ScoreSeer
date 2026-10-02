@@ -22,6 +22,9 @@ def test_wrong_outcome_gives_0_points():
 def test_predicted_draw_but_home_win_gives_0_points():
     assert calculate_points(1, 1, 2, 1) == 0
 
+def test_scores_given_as_text_are_handled():
+    assert calculate_points(1, 2, "1", "2") == 3
+
 def test_outcome():
     assert outcome(2, 0) == "home"
     assert outcome(2, 3) == "away"
