@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Text.RegularExpressions;
 
 namespace ScoreSeer.Api.Controllers;
 [ApiController]
@@ -60,7 +61,7 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok(new { user.Id, user.Email, user.Username });
+        return Ok(new { user.Id, user.Email, user.Username, user.NeedsUsername });
     }
 
     [EnableRateLimiting("auth")]
@@ -82,7 +83,7 @@ public class AuthController : ControllerBase
 
         return Ok(new { 
             token,
-            user = new { user.Id, user.Email, user.Username }
+            user = new { user.Id, user.Email, user.Username, user.NeedsUsername }
         });
     }
 
@@ -135,7 +136,8 @@ public class AuthController : ControllerBase
             {
                 Email = payload.Email,
                 GoogleId = payload.Subject,
-                Username = "user_" + Guid.NewGuid().ToString("N").Substring(0,8),
+                Username = "user_" + Guid.NewGuid().ToString("N").Substring(0,8), //temporary
+                NeedsUsername = true,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -149,7 +151,7 @@ public class AuthController : ControllerBase
         return Ok(new
         {
             token,
-            user = new { user.Id, user.Email, user.Username }
+            user = new { user.Id, user.Email, user.Username, user.NeedsUsername }
         });
     }
 
@@ -175,7 +177,65 @@ public class AuthController : ControllerBase
         if(user == null)
         return NotFound();
 
-        return Ok(new { user.Id, user.Email, user.Username });
+        return Ok(new { user.Id, user.Email, user.Username, user.NeedsUsername });
 
+    }
+
+    // Reads the current User's ID from the token
+    private long? GetUserId()
+    {
+        var claim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                 ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        return long.TryParse(claim, out var id) ? id : null;
+    }
+
+    // Checks wheter a username is valid and not taken (used while typing)
+    [EnableRateLimiting("lookup")]
+    [HttpGet("username-available")]
+    public async Task<IActionResult> UsernameAvailable([FromQuery] string? username)
+    {
+        var name = (username ?? string.Empty).Trim();
+
+        if(!Regex.IsMatch(name,"^[A-Za-z0-9_]{3,20}$"))
+            return Ok(new { available = false });
+
+        var taken = await _context.Users.AnyAsync(u => u.Username.ToLower() == name.ToLower());
+            return Ok(new { available = !taken });
+    }
+
+    // Lets a new Google user replace the temporary username, once
+    [Authorize]
+    [EnableRateLimiting("lookup")]
+    [HttpPost("username")]
+    public async Task<IActionResult> ChooseUsername(ChooseUsernameDto dto)
+    {
+        var userid = GetUserId();
+        if(userid == null)
+            return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userid.Value);
+        if(user == null)
+            return NotFound();
+
+        if(!user.NeedsUsername)
+            return BadRequest("Username has been already chosen.");
+
+        var name = dto.Username.Trim();
+        if(await _context.Users.AnyAsync(u => u.Id != user.Id && u.Username.ToLower() == name.ToLower()))
+            return Conflict("Username is already in use.");
+
+        user.Username = name;
+        user.NeedsUsername = false;
+        await _context.SaveChangesAsync();
+
+        // New token so it carries the final username
+        var token = _tokenService.CreateToken(user);
+
+        return Ok(new
+        {
+            token,
+            user = new { user.Id, user.Email, user.Username, user.NeedsUsername }
+        });
     }
 }

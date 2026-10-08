@@ -15,6 +15,7 @@ export interface User
     id: number;
     email: string;
     username: string;
+    needsUsername?: boolean; // treu only for new Google accounts without a chosen username
 }
 
 export interface Prediction

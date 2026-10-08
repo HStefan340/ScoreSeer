@@ -258,6 +258,8 @@ public partial class ScoreSeerDbContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(30)
                 .HasColumnName("username");
+            entity.Property(e => e.NeedsUsername)
+                .HasColumnName("needs_username");
 
             entity.HasMany(d => d.Leagues).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(

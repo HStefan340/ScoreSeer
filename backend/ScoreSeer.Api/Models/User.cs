@@ -28,4 +28,6 @@ public partial class User
     public virtual ICollection<Prediction> Predictions { get; set; } = new List<Prediction>();
 
     public virtual ICollection<League> Leagues { get; set; } = new List<League>();
+
+    public bool NeedsUsername { get; set; }
 }

@@ -30,7 +30,8 @@
 .auth-title
 {
     font: 800 44px var(--font-display);
-    letter-spacing: -1.5px;
+    letter-spacing: -2.5px;
+    word-spacing: 6px;
     margin: 0 0 28px;
     color: var(--text);
 }
@@ -169,4 +170,36 @@
 {
     display: flex;
     justify-content: center;
+}
+
+/* Positive status under a field (username available) */
+.auth-available
+{
+    color: var(--cyan-light);
+    font: 600 12px var(--font-body);
+    margin: 6px 0 0;
+}
+
+/* Disabled primary button */
+.auth-submit:disabled
+{
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Text-style button inside the switch line ("Log out") */
+.auth-link-button
+{
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--cyan-light);
+    font: 500 14px var(--font-body);
+    cursor: pointer;
+}
+
+.auth-link-button:hover{
+    text-decoration: underline;
 }

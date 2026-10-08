@@ -9,6 +9,7 @@ import GroupDetailPage from "./pages/GroupDetailPage";
 import InvitationsPage from "./pages/InvitationsPage";
 import MyPredictionsPage from "./pages/MyPredictionsPage";
 import LeaguesPage from "./pages/LeaguesPage";
+import ChooseUsernamePage from "./pages/ChooseUsernamePage";
 import './App.css';
 import './components/Navigation.css'
 import { useState } from "react";
@@ -16,7 +17,7 @@ import { useState } from "react";
 
 function App() 
 {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   // Not logged in: show the public landing page + login / register
   if(!token){
@@ -35,6 +36,25 @@ function App()
 
     </BrowserRouter>
   );
+  }
+
+  // Logged in with Google but no username chosen yet: only the username screen is available
+  if(user?.needsUsername)
+  {
+    return(
+      <BrowserRouter>
+        <nav className = "nav nav-public">
+          <span className = "nav-logo">
+            <span className = "nav-logo-mark"></span>
+            <span className = "nav-logo-text"> SCORESEER </span>
+          </span>
+        </nav>
+
+        <Routes>
+          <Route path = "*" element = {<ChooseUsernamePage />} />
+        </Routes>
+      </BrowserRouter>
+    );
   }
 
   return(
