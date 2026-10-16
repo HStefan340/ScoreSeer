@@ -73,7 +73,7 @@ public class AuthController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
 
         // If the user doesn't exist OR the password is incorrect -> same generic message
-        if( user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+        if( user == null || user.PasswordHash == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
         {
             return Unauthorized("Invalid email or password.");
         }
