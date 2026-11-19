@@ -95,6 +95,12 @@ builder.Services.AddRateLimiter(options =>
                     }));
 });
 
+//Email sending through teh Resend HTTP API, .Net creates and manages the HTTP client
+builder.Services.AddHttpClient<IEmailService, ResendEmailServices>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+});
+
 var app = builder.Build();
 
 app.UseForwardedHeaders();
